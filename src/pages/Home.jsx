@@ -95,6 +95,11 @@ function Home() {
                 Ant Design 演示
               </Button>
             </Link>
+            <Link to="/style-demo">
+              <Button type="default" size="large">
+                Less 样式演示
+              </Button>
+            </Link>
             <Button 
               type="dashed" 
               size="large"

@@ -1,0 +1,151 @@
+// ========================================
+// 全局混入定义
+// ========================================
+
+// 导入变量
+@import './variables.less';
+
+// 弹性布局混入
+.flex-center() {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.flex-between() {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.flex-column() {
+  display: flex;
+  flex-direction: column;
+}
+
+// 文本混入
+.text-center() {
+  text-align: center;
+}
+
+.text-left() {
+  text-align: left;
+}
+
+.text-right() {
+  text-align: right;
+}
+
+// 间距混入
+.margin(@size: @spacing-md) {
+  margin: @size;
+}
+
+.padding(@size: @spacing-md) {
+  padding: @size;
+}
+
+.margin-top(@size: @spacing-md) {
+  margin-top: @size;
+}
+
+.margin-bottom(@size: @spacing-md) {
+  margin-bottom: @size;
+}
+
+.padding-top(@size: @spacing-md) {
+  padding-top: @size;
+}
+
+.padding-bottom(@size: @spacing-md) {
+  padding-bottom: @size;
+}
+
+// 按钮混入
+.btn-base() {
+  padding: @spacing-sm @spacing-md;
+  border-radius: @border-radius;
+  border: 1px solid transparent;
+  font-size: @font-size-base;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  display: inline-block;
+  text-align: center;
+}
+
+.btn-primary() {
+  .btn-base();
+  background-color: @primary-color;
+  color: white;
+  
+  &:hover {
+    background-color: darken(@primary-color, 10%);
+  }
+}
+
+.btn-secondary() {
+  .btn-base();
+  background-color: @bg-color;
+  color: @text-color;
+  border-color: @border-color;
+  
+  &:hover {
+    border-color: @primary-color;
+    color: @primary-color;
+  }
+}
+
+// 卡片混入
+.card-base() {
+  background: @bg-color;
+  border-radius: @border-radius;
+  box-shadow: @box-shadow-light;
+  padding: @spacing-lg;
+  margin-bottom: @spacing-md;
+}
+
+// 响应式混入
+.responsive(@max-width) {
+  @media (max-width: @max-width) {
+    @content();
+  }
+}
+
+// 动画混入
+.fade-in() {
+  animation: fadeIn 0.5s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// 工具类混入
+.hidden() {
+  display: none;
+}
+
+.visible() {
+  display: block;
+}
+
+.rounded() {
+  border-radius: @border-radius;
+}
+
+.shadow() {
+  box-shadow: @box-shadow;
+}
+
+.shadow-light() {
+  box-shadow: @box-shadow-light;
+} 

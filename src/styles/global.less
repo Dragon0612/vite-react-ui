@@ -1,0 +1,272 @@
+// ========================================
+// 全局样式文件
+// ========================================
+
+// 导入变量和混入
+@import './variables.less';
+@import './mixins.less';
+
+// Tailwind CSS 导入
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+// ========================================
+// 基础样式重置
+// ========================================
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+body {
+  font-family: @font-family;
+  font-size: @font-size-base;
+  line-height: 1.5;
+  color: @text-color;
+  background-color: @bg-color;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+// ========================================
+// 根元素样式
+// ========================================
+
+#root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+// ========================================
+// 基础元素样式
+// ========================================
+
+// 链接样式
+a {
+  color: @primary-color;
+  text-decoration: none;
+  transition: color 0.3s ease;
+  
+  &:hover {
+    color: darken(@primary-color, 10%);
+  }
+}
+
+// 标题样式
+h1, h2, h3, h4, h5, h6 {
+  margin: 0 0 @spacing-md 0;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+h1 { font-size: 2.5rem; }
+h2 { font-size: 2rem; }
+h3 { font-size: 1.75rem; }
+h4 { font-size: 1.5rem; }
+h5 { font-size: 1.25rem; }
+h6 { font-size: 1rem; }
+
+// 段落样式
+p {
+  margin: 0 0 @spacing-md 0;
+  line-height: 1.6;
+}
+
+// 按钮基础样式
+button {
+  .btn-base();
+  font-family: inherit;
+  
+  &:focus {
+    outline: 2px solid @primary-color;
+    outline-offset: 2px;
+  }
+}
+
+// ========================================
+// 通用样式类
+// ========================================
+
+// 容器类
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 @spacing-md;
+  
+  @media (max-width: @screen-md) {
+    padding: 0 @spacing-sm;
+  }
+}
+
+// 布局类
+.flex-center {
+  .flex-center();
+}
+
+.flex-between {
+  .flex-between();
+}
+
+.flex-column {
+  .flex-column();
+}
+
+// 文本对齐类
+.text-center {
+  .text-center();
+}
+
+.text-left {
+  .text-left();
+}
+
+.text-right {
+  .text-right();
+}
+
+// 间距类
+.mt-1 { margin-top: @spacing-xs; }
+.mt-2 { margin-top: @spacing-sm; }
+.mt-3 { margin-top: @spacing-md; }
+.mt-4 { margin-top: @spacing-lg; }
+.mt-5 { margin-top: @spacing-xl; }
+
+.mb-1 { margin-bottom: @spacing-xs; }
+.mb-2 { margin-bottom: @spacing-sm; }
+.mb-3 { margin-bottom: @spacing-md; }
+.mb-4 { margin-bottom: @spacing-lg; }
+.mb-5 { margin-bottom: @spacing-xl; }
+
+.pt-1 { padding-top: @spacing-xs; }
+.pt-2 { padding-top: @spacing-sm; }
+.pt-3 { padding-top: @spacing-md; }
+.pt-4 { padding-top: @spacing-lg; }
+.pt-5 { padding-top: @spacing-xl; }
+
+.pb-1 { padding-bottom: @spacing-xs; }
+.pb-2 { padding-bottom: @spacing-sm; }
+.pb-3 { padding-bottom: @spacing-md; }
+.pb-4 { padding-bottom: @spacing-lg; }
+.pb-5 { padding-bottom: @spacing-xl; }
+
+// 颜色类
+.text-primary { color: @primary-color; }
+.text-success { color: @success-color; }
+.text-warning { color: @warning-color; }
+.text-error { color: @error-color; }
+.text-secondary { color: @text-color-secondary; }
+
+.bg-primary { background-color: @primary-color; }
+.bg-success { background-color: @success-color; }
+.bg-warning { background-color: @warning-color; }
+.bg-error { background-color: @error-color; }
+.bg-light { background-color: @bg-color-light; }
+
+// 按钮类
+.btn {
+  .btn-base();
+}
+
+.btn-primary {
+  .btn-primary();
+}
+
+.btn-secondary {
+  .btn-secondary();
+}
+
+// 卡片类
+.card {
+  .card-base();
+}
+
+.card-hover {
+  .card-base();
+  transition: box-shadow 0.3s ease;
+  
+  &:hover {
+    .shadow();
+  }
+}
+
+// 工具类
+.hidden {
+  .hidden();
+}
+
+.visible {
+  .visible();
+}
+
+.rounded {
+  .rounded();
+}
+
+.shadow {
+  .shadow();
+}
+
+.shadow-light {
+  .shadow-light();
+}
+
+.fade-in {
+  .fade-in();
+}
+
+// ========================================
+// 响应式样式
+// ========================================
+
+@media (max-width: @screen-md) {
+  .container {
+    padding: 0 @spacing-sm;
+  }
+  
+  h1 { font-size: 2rem; }
+  h2 { font-size: 1.75rem; }
+  h3 { font-size: 1.5rem; }
+}
+
+@media (max-width: @screen-sm) {
+  .container {
+    padding: 0 @spacing-xs;
+  }
+  
+  h1 { font-size: 1.75rem; }
+  h2 { font-size: 1.5rem; }
+  h3 { font-size: 1.25rem; }
+}
+
+// ========================================
+// 暗色主题支持
+// ========================================
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    color: rgba(255, 255, 255, 0.87);
+    background-color: @bg-color-dark;
+  }
+  
+  body {
+    color: rgba(255, 255, 255, 0.87);
+    background-color: @bg-color-dark;
+  }
+  
+  .card {
+    background: lighten(@bg-color-dark, 5%);
+    color: rgba(255, 255, 255, 0.87);
+  }
+  
+  .bg-light {
+    background-color: lighten(@bg-color-dark, 10%);
+  }
+} 
