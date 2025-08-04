@@ -6,6 +6,7 @@ import Home from './pages/Home'
 import About from './pages/About'
 import AntdDemo from './components/AntdDemo'
 import StyleDemo from './components/StyleDemo.jsx'
+import RequestDemo from './components/RequestDemo.jsx'
 import './App.css'
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
               <Route path="/about" element={<About />} />
               <Route path="/demo" element={<AntdDemo />} />
               <Route path="/style-demo" element={<StyleDemo />} />
+              <Route path="/request-demo" element={<RequestDemo />} />
             </Routes>
           </div>
         </Router>

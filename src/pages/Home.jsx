@@ -100,6 +100,11 @@ function Home() {
                 Less 样式演示
               </Button>
             </Link>
+            <Link to="/request-demo">
+              <Button type="default" size="large">
+                请求函数演示
+              </Button>
+            </Link>
             <Button 
               type="dashed" 
               size="large"
