@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import { Button, Card, Space, message, Form, Input, Upload } from 'antd'
 import { UploadOutlined } from '@ant-design/icons'
-import { useRequest } from '../hooks/useRequest'
-import { userService, productService } from '../services'
-import { get, post, put, del, upload, download, all, race } from '../utils/request'
+import { useRequest } from '@/hooks/useRequest'
+import { userService, productService } from '@/services'
+import { get, post, put, del, upload, download, all, race } from '@/utils/request'
 
 function RequestDemo() {
   const [form] = Form.useForm()

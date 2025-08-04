@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Button, Card, Space, Typography, Row, Col, Divider, message } from 'antd'
 import { PlusOutlined, HeartOutlined, StarOutlined } from '@ant-design/icons'
-import reactLogo from '../assets/react.svg'
+import reactLogo from '@/assets/react.svg'
 import viteLogo from '/vite.svg'
 
 const { Title, Paragraph, Text } = Typography

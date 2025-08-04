@@ -1,4 +1,4 @@
-import { get, post, put, del, upload } from '../utils/request'
+import { get, post, put, del, upload } from '@/utils/request'
 
 // 产品相关 API 服务
 export const productService = {

@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Table, Button, Space, Modal, message, Form, Input, Select } from 'antd'
-import { useListRequest } from '../hooks/useRequest'
-import { userService } from '../services/userService'
+import { useListRequest } from '@/hooks/useRequest'
+import { userService } from '@/services/userService'
 
 const { Option } = Select
 
