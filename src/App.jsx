@@ -5,7 +5,6 @@ import { StoreProvider } from './store/index.jsx'
 import Home from './pages/Home'
 import About from './pages/About'
 import AntdDemo from './components/AntdDemo'
-import SimpleDemo from './components/SimpleDemo'
 import StyleDemo from './components/StyleDemo.jsx'
 import './App.css'
 
