@@ -1,12 +1,9 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import { BrowserRouter as Router } from 'react-router-dom'
 import { ConfigProvider } from 'antd'
 import zhCN from 'antd/es/locale/zh_CN'
 import { StoreProvider } from '@/store/index.jsx'
-import Home from '@/pages/Home'
-import About from '@/pages/About'
-import AntdDemo from '@/components/AntdDemo'
-import StyleDemo from '@/components/StyleDemo.jsx'
-import RequestDemo from '@/components/RequestDemo.jsx'
+import RouterConfig from '@/router/RouterConfig'
+import Navigation from '@/components/Navigation'
 import '@/App.css'
 
 function App() {
@@ -15,13 +12,8 @@ function App() {
       <StoreProvider>
         <Router>
           <div className="App">
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/about" element={<About />} />
-              <Route path="/demo" element={<AntdDemo />} />
-              <Route path="/style-demo" element={<StyleDemo />} />
-              <Route path="/request-demo" element={<RequestDemo />} />
-            </Routes>
+            <Navigation />
+            <RouterConfig />
           </div>
         </Router>
       </StoreProvider>
