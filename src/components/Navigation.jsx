@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { Menu } from 'antd'
+import { Menu, Button, Space } from 'antd'
 import { 
   HomeOutlined, 
   InfoCircleOutlined, 
@@ -8,7 +8,8 @@ import {
   BgColorsOutlined, 
   ApiOutlined, 
   UserOutlined,
-  ExperimentOutlined
+  ExperimentOutlined,
+  SettingOutlined
 } from '@ant-design/icons'
 import { getMenuItems } from '@/router'
 
@@ -20,7 +21,8 @@ const iconMap = {
   style: <BgColorsOutlined />,
   api: <ApiOutlined />,
   user: <UserOutlined />,
-  example: <ExperimentOutlined />
+  example: <ExperimentOutlined />,
+  admin: <SettingOutlined />
 }
 
 function Navigation() {
@@ -39,15 +41,42 @@ function Navigation() {
   }))
 
   return (
-    <Menu
-      mode="horizontal"
-      selectedKeys={[location.pathname]}
-      items={items}
-      style={{ 
-        borderBottom: '1px solid #f0f0f0',
-        marginBottom: '20px'
-      }}
-    />
+    <div style={{ 
+      borderBottom: '1px solid #f0f0f0',
+      marginBottom: '20px',
+      padding: '0 24px'
+    }}>
+      <div style={{ 
+        display: 'flex', 
+        justifyContent: 'space-between', 
+        alignItems: 'center',
+        height: '64px'
+      }}>
+        <div style={{ fontSize: '20px', fontWeight: 'bold', color: '#1890ff' }}>
+          Vite React UI
+        </div>
+        
+        <Space>
+          <Menu
+            mode="horizontal"
+            selectedKeys={[location.pathname]}
+            items={items}
+            style={{ 
+              borderBottom: 'none',
+              background: 'transparent'
+            }}
+          />
+          
+          <Button 
+            type="primary" 
+            icon={<SettingOutlined />}
+            onClick={() => window.location.href = '/admin'}
+          >
+            后台管理
+          </Button>
+        </Space>
+      </div>
+    </div>
   )
 }
 

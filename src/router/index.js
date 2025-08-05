@@ -8,6 +8,9 @@ const StyleDemo = lazy(() => import('@/components/StyleDemo'))
 const RequestDemo = lazy(() => import('@/components/RequestDemo'))
 const UserList = lazy(() => import('@/components/UserList'))
 const Example = lazy(() => import('@/pages/Example'))
+const Dashboard = lazy(() => import('@/pages/Dashboard'))
+const UserManagement = lazy(() => import('@/pages/UserManagement'))
+const Layout = lazy(() => import('@/components/Layout'))
 
 // 路由配置
 export const routes = [
@@ -82,6 +85,41 @@ export const routes = [
       showInMenu: true,
       requiresAuth: false
     }
+  },
+  // 后台管理系统路由
+  {
+    path: '/admin',
+    name: '后台管理',
+    component: Layout,
+    meta: {
+      title: '后台管理系统',
+      icon: 'admin',
+      showInMenu: true,
+      requiresAuth: true,
+      layout: 'admin'
+    },
+    children: [
+      {
+        path: '/admin',
+        name: '仪表盘',
+        component: Dashboard,
+        meta: {
+          title: '仪表盘',
+          icon: 'dashboard',
+          showInMenu: true
+        }
+      },
+      {
+        path: '/admin/users',
+        name: '用户管理',
+        component: UserManagement,
+        meta: {
+          title: '用户管理',
+          icon: 'user',
+          showInMenu: true
+        }
+      }
+    ]
   }
 ]
 
@@ -104,4 +142,10 @@ export const getAllPaths = () => {
 export const requiresAuth = (path) => {
   const route = getRouteByPath(path)
   return route?.meta?.requiresAuth || false
+}
+
+// 检查路由是否使用后台布局
+export const useAdminLayout = (path) => {
+  const route = getRouteByPath(path)
+  return route?.meta?.layout === 'admin'
 } 
