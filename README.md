@@ -1,118 +1,133 @@
-# Vite React 项目
+# Vite React UI - 后台管理框架
 
-这是一个使用现代技术栈构建的React应用，集成了最新的开发工具和最佳实践。
+这是一个基于 Vite + React + Ant Design 的纯后台管理框架系统，提供了完整的后台管理基础架构。
 
-## 🚀 技术栈
+## 主要特性
 
-- **React 19** - 用户界面库
-- **Vite** - 快速构建工具
-- **Tailwind CSS** - 实用优先的CSS框架
-- **React Router** - 路由管理
-- **Redux Toolkit** - 状态管理
-- **Axios** - HTTP客户端
-- **ESLint** - 代码检查
+- 🚀 **Vite** - 快速的构建工具
+- ⚛️ **React 19** - 最新的 React 版本
+- 🎨 **Ant Design** - 企业级 UI 组件库
+- 🛣️ **React Router** - 路由管理
+- 📦 **Redux Toolkit** - 状态管理
+- 🎯 **TypeScript 支持** - 完整的类型支持
+- 📱 **响应式设计** - 适配各种屏幕尺寸
+- 🔐 **权限控制** - 基于路由的权限管理
+- 🎨 **主题定制** - 支持主题切换和定制
 
-## 📁 项目结构
+## 项目结构
 
 ```
 src/
-├── components/     # 可复用组件
-├── pages/         # 页面组件
-├── store/         # Redux状态管理
-├── hooks/         # 自定义Hooks
-├── services/      # API服务
-├── utils/         # 工具函数
-├── types/         # TypeScript类型定义
-└── assets/        # 静态资源
+├── components/          # 通用组件
+│   ├── Layout.jsx      # 后台布局组件
+│   └── Button.jsx      # 通用按钮组件
+├── pages/              # 页面组件
+│   ├── Dashboard.jsx   # 仪表盘页面
+│   └── Login.jsx       # 登录页面
+├── router/             # 路由配置
+│   ├── index.js        # 路由定义
+│   └── RouterConfig.jsx # 路由配置组件
+├── store/              # 状态管理
+│   └── index.jsx       # Redux store 配置
+├── hooks/              # 自定义 Hooks
+│   └── useLocalStorage.js # 本地存储 Hook
+├── styles/             # 样式文件
+│   ├── global.less     # 全局样式
+│   ├── variables.less  # 样式变量
+│   └── mixins.less     # 样式混入
+└── services/           # 服务层
+    └── index.js        # 服务导出
 ```
 
-## 🛠️ 开发命令
+## 快速开始
+
+### 安装依赖
 
 ```bash
-# 安装依赖
+npm install
+# 或
 yarn install
+```
 
-# 启动开发服务器
+### 启动开发服务器
+
+```bash
+npm run dev
+# 或
 yarn dev
+```
 
-# 构建生产版本
+### 构建生产版本
+
+```bash
+npm run build
+# 或
 yarn build
-
-# 预览构建结果
-yarn preview
-
-# 代码检查
-yarn lint
 ```
 
-## 🔧 环境配置
+## 框架特性
 
-创建 `.env` 文件并配置以下环境变量：
+### 1. 路由管理
+- 基于 React Router 的路由系统
+- 支持嵌套路由和懒加载
+- 路由权限控制
 
-```env
-VITE_API_URL=http://localhost:3000/api
-VITE_APP_TITLE=Vite React App
-VITE_APP_VERSION=1.0.0
-VITE_DEV_MODE=true
-```
+### 2. 状态管理
+- 使用 Redux Toolkit 进行状态管理
+- 模块化的 reducer 设计
+- 支持异步操作
 
-## 📦 主要功能
+### 3. 组件系统
+- 基于 Ant Design 的组件库
+- 响应式布局设计
+- 可复用的组件结构
 
-- ✅ 热模块替换 (HMR)
-- ✅ 路由管理
-- ✅ 状态管理
-- ✅ API请求封装
-- ✅ 本地存储工具
-- ✅ 自定义Hooks
-- ✅ 响应式设计
-- ✅ 代码检查
+### 4. 样式系统
+- Less 预处理器
+- 全局样式变量
+- 主题定制支持
 
-## 🎨 样式系统
+### 5. 开发工具
+- ESLint 代码规范
+- Vite 快速构建
+- 热更新支持
 
-项目使用Tailwind CSS作为样式框架，提供了：
+## 扩展指南
 
-- 响应式设计
-- 实用优先的CSS类
-- 自定义主题支持
-- 组件化样式
+### 添加新页面
+1. 在 `src/pages/` 目录下创建新页面组件
+2. 在 `src/router/index.js` 中添加路由配置
+3. 在 `src/components/Layout.jsx` 中添加菜单项
 
-## 🔄 状态管理
+### 添加新服务
+1. 在 `src/services/` 目录下创建服务文件
+2. 在 `src/services/index.js` 中导出服务
 
-使用Redux Toolkit进行状态管理，提供了：
+### 添加新组件
+1. 在 `src/components/` 目录下创建组件
+2. 遵循组件设计规范
 
-- 简化的Redux配置
-- 内置的Immer支持
-- 开发工具集成
-- 异步操作支持
+### 添加新 Hook
+1. 在 `src/hooks/` 目录下创建自定义 Hook
+2. 遵循 React Hooks 规范
 
-## 📡 API集成
+## 技术栈
 
-使用Axios进行HTTP请求，提供了：
+- **构建工具**: Vite
+- **前端框架**: React 19
+- **UI 组件库**: Ant Design 4.24.0
+- **路由管理**: React Router DOM
+- **状态管理**: Redux Toolkit
+- **样式预处理**: Less
+- **代码规范**: ESLint
 
-- 请求/响应拦截器
-- 统一错误处理
-- 认证token管理
-- 超时配置
+## 浏览器支持
 
-## 🚀 快速开始
+- Chrome >= 87
+- Firefox >= 78
+- Safari >= 14
+- Edge >= 88
 
-1. 克隆项目
-2. 安装依赖：`yarn install`
-3. 启动开发服务器：`yarn dev`
-4. 打开浏览器访问：`http://localhost:5173`
-
-## 📝 开发指南
-
-- 组件放在 `src/components/` 目录
-- 页面放在 `src/pages/` 目录
-- 自定义Hooks放在 `src/hooks/` 目录
-- API服务放在 `src/services/` 目录
-- 工具函数放在 `src/utils/` 目录
-
-## 🤝 贡献
-
-欢迎提交Issue和Pull Request！
-
-## �� 许可证
+## 许可证
 
 MIT License

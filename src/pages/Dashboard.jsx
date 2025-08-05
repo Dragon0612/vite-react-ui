@@ -1,5 +1,5 @@
 import React from 'react'
-import { Row, Col, Card, Statistic, Progress, Table, Tag } from 'antd'
+import { Row, Col, Card, Statistic, Progress } from 'antd'
 import {
   UserOutlined,
   ShoppingCartOutlined,
@@ -9,91 +9,7 @@ import {
   ArrowDownOutlined
 } from '@ant-design/icons'
 
-// 模拟数据
-const mockData = {
-  statistics: {
-    users: 1234,
-    orders: 567,
-    revenue: 89012,
-    articles: 89
-  },
-  recentOrders: [
-    {
-      key: '1',
-      orderNo: 'ORD001',
-      customer: '张三',
-      amount: 299.00,
-      status: 'completed',
-      date: '2024-01-15'
-    },
-    {
-      key: '2',
-      orderNo: 'ORD002',
-      customer: '李四',
-      amount: 199.00,
-      status: 'pending',
-      date: '2024-01-14'
-    },
-    {
-      key: '3',
-      orderNo: 'ORD003',
-      customer: '王五',
-      amount: 599.00,
-      status: 'processing',
-      date: '2024-01-13'
-    }
-  ]
-}
-
 const Dashboard = () => {
-  const statusColorMap = {
-    completed: 'green',
-    pending: 'orange',
-    processing: 'blue',
-    cancelled: 'red'
-  }
-
-  const statusTextMap = {
-    completed: '已完成',
-    pending: '待处理',
-    processing: '处理中',
-    cancelled: '已取消'
-  }
-
-  const columns = [
-    {
-      title: '订单号',
-      dataIndex: 'orderNo',
-      key: 'orderNo',
-    },
-    {
-      title: '客户',
-      dataIndex: 'customer',
-      key: 'customer',
-    },
-    {
-      title: '金额',
-      dataIndex: 'amount',
-      key: 'amount',
-      render: (amount) => `¥${amount.toFixed(2)}`,
-    },
-    {
-      title: '状态',
-      dataIndex: 'status',
-      key: 'status',
-      render: (status) => (
-        <Tag color={statusColorMap[status]}>
-          {statusTextMap[status]}
-        </Tag>
-      ),
-    },
-    {
-      title: '日期',
-      dataIndex: 'date',
-      key: 'date',
-    },
-  ]
-
   return (
     <div>
       <h2 style={{ marginBottom: '24px' }}>仪表盘</h2>
@@ -103,7 +19,7 @@ const Dashboard = () => {
           <Card>
             <Statistic
               title="总用户数"
-              value={mockData.statistics.users}
+              value={1234}
               prefix={<UserOutlined />}
               suffix={
                 <span style={{ fontSize: '14px', color: '#52c41a' }}>
@@ -117,7 +33,7 @@ const Dashboard = () => {
           <Card>
             <Statistic
               title="总订单数"
-              value={mockData.statistics.orders}
+              value={567}
               prefix={<ShoppingCartOutlined />}
               suffix={
                 <span style={{ fontSize: '14px', color: '#52c41a' }}>
@@ -131,7 +47,7 @@ const Dashboard = () => {
           <Card>
             <Statistic
               title="总收入"
-              value={mockData.statistics.revenue}
+              value={89012}
               prefix={<DollarOutlined />}
               suffix="元"
               precision={2}
@@ -142,7 +58,7 @@ const Dashboard = () => {
           <Card>
             <Statistic
               title="文章数量"
-              value={mockData.statistics.articles}
+              value={89}
               prefix={<FileTextOutlined />}
               suffix={
                 <span style={{ fontSize: '14px', color: '#ff4d4f' }}>
@@ -212,13 +128,16 @@ const Dashboard = () => {
         </Col>
       </Row>
 
-      <Card title="最近订单" size="small">
-        <Table
-          columns={columns}
-          dataSource={mockData.recentOrders}
-          pagination={false}
-          size="small"
-        />
+      <Card title="欢迎使用后台管理系统" size="small">
+        <p>这是一个基础的后台管理框架，您可以在此基础上添加具体的业务功能。</p>
+        <p>主要特性：</p>
+        <ul>
+          <li>响应式布局设计</li>
+          <li>Ant Design 组件库</li>
+          <li>React Router 路由管理</li>
+          <li>Redux 状态管理</li>
+          <li>模块化组件结构</li>
+        </ul>
       </Card>
     </div>
   )

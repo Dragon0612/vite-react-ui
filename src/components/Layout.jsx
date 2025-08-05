@@ -7,14 +7,7 @@ import {
   BellOutlined,
   SettingOutlined,
   LogoutOutlined,
-  DashboardOutlined,
-  TeamOutlined,
-  FileTextOutlined,
-  ShoppingOutlined,
-  BarChartOutlined,
-  ShoppingCartOutlined,
-  BookOutlined,
-  PieChartOutlined
+  DashboardOutlined
 } from '@ant-design/icons'
 import { useNavigate, useLocation, Outlet } from 'react-router-dom'
 
@@ -26,36 +19,6 @@ const sidebarMenuItems = [
     key: '/',
     icon: <DashboardOutlined />,
     label: '仪表盘'
-  },
-  {
-    key: '/analytics',
-    icon: <PieChartOutlined />,
-    label: '数据分析'
-  },
-  {
-    key: '/users',
-    icon: <TeamOutlined />,
-    label: '用户管理'
-  },
-  {
-    key: '/products',
-    icon: <ShoppingOutlined />,
-    label: '商品管理'
-  },
-  {
-    key: '/orders',
-    icon: <ShoppingCartOutlined />,
-    label: '订单管理'
-  },
-  {
-    key: '/content',
-    icon: <BookOutlined />,
-    label: '内容管理'
-  },
-  {
-    key: '/settings',
-    icon: <SettingOutlined />,
-    label: '系统设置'
   }
 ]
 
