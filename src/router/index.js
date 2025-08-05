@@ -1,106 +1,43 @@
 import { lazy } from 'react'
 
 // 懒加载组件
-const Home = lazy(() => import('@/pages/Home'))
-const About = lazy(() => import('@/pages/About'))
-const AntdDemo = lazy(() => import('@/components/AntdDemo'))
-const StyleDemo = lazy(() => import('@/components/StyleDemo'))
-const RequestDemo = lazy(() => import('@/components/RequestDemo'))
-const UserList = lazy(() => import('@/components/UserList'))
-const Example = lazy(() => import('@/pages/Example'))
+const Layout = lazy(() => import('@/components/Layout'))
 const Dashboard = lazy(() => import('@/pages/Dashboard'))
 const UserManagement = lazy(() => import('@/pages/UserManagement'))
-const Layout = lazy(() => import('@/components/Layout'))
+const ProductManagement = lazy(() => import('@/pages/ProductManagement'))
+const OrderManagement = lazy(() => import('@/pages/OrderManagement'))
+const ContentManagement = lazy(() => import('@/pages/ContentManagement'))
+const SystemSettings = lazy(() => import('@/pages/SystemSettings'))
+const Analytics = lazy(() => import('@/pages/Analytics'))
+const Login = lazy(() => import('@/pages/Login'))
 
 // 路由配置
 export const routes = [
   {
-    path: '/',
-    name: '首页',
-    component: Home,
+    path: '/login',
+    name: '登录',
+    component: Login,
     meta: {
-      title: '首页',
-      icon: 'home',
-      showInMenu: true
-    }
-  },
-  {
-    path: '/about',
-    name: '关于',
-    component: About,
-    meta: {
-      title: '关于页面',
-      icon: 'info',
-      showInMenu: true
-    }
-  },
-  {
-    path: '/demo',
-    name: 'Ant Design 演示',
-    component: AntdDemo,
-    meta: {
-      title: 'Ant Design 演示',
-      icon: 'ant-design',
-      showInMenu: true
-    }
-  },
-  {
-    path: '/style-demo',
-    name: '样式演示',
-    component: StyleDemo,
-    meta: {
-      title: 'Less 样式演示',
-      icon: 'style',
-      showInMenu: true
-    }
-  },
-  {
-    path: '/request-demo',
-    name: '请求演示',
-    component: RequestDemo,
-    meta: {
-      title: '请求函数演示',
-      icon: 'api',
-      showInMenu: true
-    }
-  },
-  {
-    path: '/user-list',
-    name: '用户管理',
-    component: UserList,
-    meta: {
-      title: '用户管理',
-      icon: 'user',
-      showInMenu: true,
-      requiresAuth: true
-    }
-  },
-  {
-    path: '/example',
-    name: '路由示例',
-    component: Example,
-    meta: {
-      title: '路由配置示例',
-      icon: 'example',
-      showInMenu: true,
+      title: '登录',
+      icon: 'login',
+      showInMenu: false,
       requiresAuth: false
     }
   },
-  // 后台管理系统路由
   {
-    path: '/admin',
+    path: '/',
     name: '后台管理',
     component: Layout,
     meta: {
       title: '后台管理系统',
       icon: 'admin',
-      showInMenu: true,
+      showInMenu: false,
       requiresAuth: true,
       layout: 'admin'
     },
     children: [
       {
-        path: '/admin',
+        path: '',
         name: '仪表盘',
         component: Dashboard,
         meta: {
@@ -110,12 +47,62 @@ export const routes = [
         }
       },
       {
-        path: '/admin/users',
+        path: 'analytics',
+        name: '数据分析',
+        component: Analytics,
+        meta: {
+          title: '数据分析',
+          icon: 'analytics',
+          showInMenu: true
+        }
+      },
+      {
+        path: 'users',
         name: '用户管理',
         component: UserManagement,
         meta: {
           title: '用户管理',
           icon: 'user',
+          showInMenu: true
+        }
+      },
+      {
+        path: 'products',
+        name: '商品管理',
+        component: ProductManagement,
+        meta: {
+          title: '商品管理',
+          icon: 'product',
+          showInMenu: true
+        }
+      },
+      {
+        path: 'orders',
+        name: '订单管理',
+        component: OrderManagement,
+        meta: {
+          title: '订单管理',
+          icon: 'order',
+          showInMenu: true
+        }
+      },
+      {
+        path: 'content',
+        name: '内容管理',
+        component: ContentManagement,
+        meta: {
+          title: '内容管理',
+          icon: 'content',
+          showInMenu: true
+        }
+      },
+      {
+        path: 'settings',
+        name: '系统设置',
+        component: SystemSettings,
+        meta: {
+          title: '系统设置',
+          icon: 'setting',
           showInMenu: true
         }
       }

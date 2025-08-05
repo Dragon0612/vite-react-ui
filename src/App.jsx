@@ -3,7 +3,6 @@ import { ConfigProvider } from 'antd'
 import zhCN from 'antd/es/locale/zh_CN'
 import { StoreProvider } from '@/store/index.jsx'
 import RouterConfig from '@/router/RouterConfig'
-import Navigation from '@/components/Navigation'
 import '@/App.css'
 
 function App() {
@@ -12,7 +11,6 @@ function App() {
       <StoreProvider>
         <Router>
           <div className="App">
-            <Navigation />
             <RouterConfig />
           </div>
         </Router>

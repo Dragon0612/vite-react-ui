@@ -11,7 +11,10 @@ import {
   TeamOutlined,
   FileTextOutlined,
   ShoppingOutlined,
-  BarChartOutlined
+  BarChartOutlined,
+  ShoppingCartOutlined,
+  BookOutlined,
+  PieChartOutlined
 } from '@ant-design/icons'
 import { useNavigate, useLocation, Outlet } from 'react-router-dom'
 
@@ -20,49 +23,39 @@ const { Header, Sider, Content } = Layout
 // 侧边栏菜单配置
 const sidebarMenuItems = [
   {
-    key: '/admin',
+    key: '/',
     icon: <DashboardOutlined />,
-    label: '仪表盘',
-    children: [
-      { key: '/admin', label: '概览' },
-      { key: '/admin/analytics', label: '数据分析' }
-    ]
+    label: '仪表盘'
   },
   {
-    key: '/admin/user',
+    key: '/analytics',
+    icon: <PieChartOutlined />,
+    label: '数据分析'
+  },
+  {
+    key: '/users',
     icon: <TeamOutlined />,
-    label: '用户管理',
-    children: [
-      { key: '/admin/users', label: '用户列表' },
-      { key: '/admin/user-roles', label: '角色管理' }
-    ]
+    label: '用户管理'
   },
   {
-    key: '/admin/content',
-    icon: <FileTextOutlined />,
-    label: '内容管理',
-    children: [
-      { key: '/admin/articles', label: '文章管理' },
-      { key: '/admin/categories', label: '分类管理' }
-    ]
-  },
-  {
-    key: '/admin/product',
+    key: '/products',
     icon: <ShoppingOutlined />,
-    label: '商品管理',
-    children: [
-      { key: '/admin/products', label: '商品列表' },
-      { key: '/admin/orders', label: '订单管理' }
-    ]
+    label: '商品管理'
   },
   {
-    key: '/admin/system',
+    key: '/orders',
+    icon: <ShoppingCartOutlined />,
+    label: '订单管理'
+  },
+  {
+    key: '/content',
+    icon: <BookOutlined />,
+    label: '内容管理'
+  },
+  {
+    key: '/settings',
     icon: <SettingOutlined />,
-    label: '系统设置',
-    children: [
-      { key: '/admin/settings', label: '基本设置' },
-      { key: '/admin/logs', label: '系统日志' }
-    ]
+    label: '系统设置'
   }
 ]
 
@@ -100,30 +93,12 @@ function AdminLayout() {
       localStorage.removeItem('token')
       navigate('/login')
     } else if (key === 'profile') {
-      navigate('/admin/profile')
+      navigate('/profile')
     }
   }
 
   const getSelectedKeys = () => {
     return [location.pathname]
-  }
-
-  const getOpenKeys = () => {
-    const pathname = location.pathname
-    const openKeys = []
-    
-    sidebarMenuItems.forEach(item => {
-      if (item.children) {
-        const hasActiveChild = item.children.some(child => 
-          child.key === pathname
-        )
-        if (hasActiveChild) {
-          openKeys.push(item.key)
-        }
-      }
-    })
-    
-    return openKeys
   }
 
   return (
@@ -154,7 +129,6 @@ function AdminLayout() {
           theme="dark"
           mode="inline"
           selectedKeys={getSelectedKeys()}
-          defaultOpenKeys={getOpenKeys()}
           items={sidebarMenuItems}
           onClick={handleMenuClick}
           style={{
