@@ -7,20 +7,40 @@ import {
   BellOutlined,
   SettingOutlined,
   LogoutOutlined,
-  DashboardOutlined
+  DashboardOutlined,
+  TeamOutlined,
+  FileOutlined,
+  BarChartOutlined,
+  FileTextOutlined
 } from '@ant-design/icons'
 import { useNavigate, useLocation, Outlet } from 'react-router-dom'
+import { routes } from '@/router'
 
 const { Header, Sider, Content } = Layout
 
-// 侧边栏菜单配置
-const sidebarMenuItems = [
-  {
-    key: '/',
-    icon: <DashboardOutlined />,
-    label: '仪表盘'
-  }
-]
+// 图标映射
+const iconMap = {
+  'dashboard': <DashboardOutlined />,
+  'user': <TeamOutlined />,
+  'file': <FileOutlined />,
+  'bar-chart': <BarChartOutlined />,
+  'file-text': <FileTextOutlined />,
+  'setting': <SettingOutlined />
+}
+
+// 从路由配置生成菜单项
+const generateMenuItems = () => {
+  const adminRoute = routes.find(route => route.path === '/')
+  if (!adminRoute || !adminRoute.children) return []
+  
+  return adminRoute.children
+    .filter(route => route.meta?.showInMenu)
+    .map(route => ({
+      key: route.path === '' ? '/' : `/${route.path}`,
+      icon: iconMap[route.meta?.icon] || <DashboardOutlined />,
+      label: route.meta?.title || route.name
+    }))
+}
 
 // 用户下拉菜单
 const userMenuItems = [
@@ -63,6 +83,8 @@ function AdminLayout() {
   const getSelectedKeys = () => {
     return [location.pathname]
   }
+
+  const sidebarMenuItems = generateMenuItems()
 
   return (
     <Layout style={{ minHeight: '100vh' }}>

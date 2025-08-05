@@ -4,6 +4,11 @@ import { lazy } from 'react'
 const Layout = lazy(() => import('@/components/Layout'))
 const Dashboard = lazy(() => import('@/pages/Dashboard'))
 const Login = lazy(() => import('@/pages/Login'))
+const UserManagement = lazy(() => import('@/pages/UserManagement'))
+const SystemSettings = lazy(() => import('@/pages/SystemSettings'))
+const DataAnalysis = lazy(() => import('@/pages/DataAnalysis'))
+const ContentManagement = lazy(() => import('@/pages/ContentManagement'))
+const LogManagement = lazy(() => import('@/pages/LogManagement'))
 
 // 路由配置
 export const routes = [
@@ -37,6 +42,56 @@ export const routes = [
         meta: {
           title: '仪表盘',
           icon: 'dashboard',
+          showInMenu: true
+        }
+      },
+      {
+        path: 'users',
+        name: '用户管理',
+        component: UserManagement,
+        meta: {
+          title: '用户管理',
+          icon: 'user',
+          showInMenu: true
+        }
+      },
+      {
+        path: 'content',
+        name: '内容管理',
+        component: ContentManagement,
+        meta: {
+          title: '内容管理',
+          icon: 'file',
+          showInMenu: true
+        }
+      },
+      {
+        path: 'analysis',
+        name: '数据分析',
+        component: DataAnalysis,
+        meta: {
+          title: '数据分析',
+          icon: 'bar-chart',
+          showInMenu: true
+        }
+      },
+      {
+        path: 'logs',
+        name: '日志管理',
+        component: LogManagement,
+        meta: {
+          title: '日志管理',
+          icon: 'file-text',
+          showInMenu: true
+        }
+      },
+      {
+        path: 'settings',
+        name: '系统设置',
+        component: SystemSettings,
+        meta: {
+          title: '系统设置',
+          icon: 'setting',
           showInMenu: true
         }
       }
