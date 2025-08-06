@@ -7,15 +7,7 @@ import '@/App.css'
 
 function App() {
   return (
-    <ConfigProvider
-      locale={zhCN}
-      theme={{
-        token: {
-          colorPrimary: '#1890ff',
-          borderRadius: 6,
-        },
-      }}
-    >
+    <ConfigProvider locale={zhCN}>
       <StoreProvider>
         <Router>
           <div className="App">
