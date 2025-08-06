@@ -60,7 +60,7 @@ request.interceptors.response.use(
     }
 
     // 统一处理响应数据
-    const { data, status } = response
+    const { data } = response
     
     // 如果后端返回的是标准格式 { code, data, message }
     if (data && typeof data.code !== 'undefined') {
