@@ -1,7 +1,7 @@
 import { BrowserRouter as Router } from 'react-router-dom'
 import { ConfigProvider } from 'antd'
 import zhCN from 'antd/locale/zh_CN'
-import { StoreProvider } from '@/store/index.jsx'
+import { StoreProvider } from '@/store/StoreProvider.jsx'
 import RouterConfig from '@/router/RouterConfig'
 import '@/App.css'
 

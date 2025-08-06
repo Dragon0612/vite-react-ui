@@ -1,21 +1,19 @@
 import { configureStore } from '@reduxjs/toolkit'
-import { Provider } from 'react-redux'
 
-// 这里可以添加你的reducers
-// import userReducer from './slices/userSlice'
-// import authReducer from './slices/authSlice'
+// 创建一个简单的默认 reducer
+const defaultReducer = (state = {}, action) => {
+  switch (action.type) {
+    default:
+      return state
+  }
+}
 
 export const store = configureStore({
   reducer: {
-    // user: userReducer,
-    // auth: authReducer,
+    app: defaultReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: false,
     }),
-})
-
-export const StoreProvider = ({ children }) => {
-  return <Provider store={store}>{children}</Provider>
-} 
+}) 

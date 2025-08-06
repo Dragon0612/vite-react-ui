@@ -112,6 +112,7 @@ export function useListRequest(requestFn, options = {}) {
     } finally {
       setLoading(false)
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [requestFn, pagination.current, pagination.pageSize, options])
 
   const handlePageChange = useCallback((page, pageSize) => {
