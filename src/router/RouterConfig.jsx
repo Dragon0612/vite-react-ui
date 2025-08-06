@@ -18,7 +18,8 @@ const LoadingComponent = () => (
 // 认证检查组件
 const AuthGuard = ({ children }) => {
   const token = localStorage.getItem('token')
-  const isLoginPage = window.location.pathname === '/login'
+  const location = window.location.pathname
+  const isLoginPage = location === '/login'
   
   if (!token && !isLoginPage) {
     return <Navigate to="/login" replace />
@@ -41,11 +42,19 @@ const renderRoutes = (routes) => {
         </Route>
       )
     } else {
+      const element = route.meta?.requiresAuth !== false ? (
+        <AuthGuard>
+          <route.component />
+        </AuthGuard>
+      ) : (
+        <route.component />
+      )
+      
       return (
         <Route
           key={route.path}
           path={route.path}
-          element={<route.component />}
+          element={element}
         />
       )
     }
@@ -55,15 +64,13 @@ const renderRoutes = (routes) => {
 // 路由配置组件
 function RouterConfig() {
   return (
-    <AuthGuard>
-      <Suspense fallback={<LoadingComponent />}>
-        <Routes>
-          {renderRoutes(routes)}
-          {/* 默认重定向到首页 */}
-          <Route path="*" element={<Navigate to="/" replace />} />
-        </Routes>
-      </Suspense>
-    </AuthGuard>
+    <Suspense fallback={<LoadingComponent />}>
+      <Routes>
+        {renderRoutes(routes)}
+        {/* 默认重定向到首页 */}
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
+    </Suspense>
   )
 }
 
