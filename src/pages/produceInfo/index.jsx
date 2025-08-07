@@ -1,6 +1,8 @@
-// import React from 'react'
+import { useState, useEffect } from 'react'
+import { useParams, useLocation, useNavigate } from 'react-router-dom'
 
-function ProduceInfo() {
+function ProduceInfo(props) {
+    console.log(props)
   return (
     <div>
       <h1>产品介绍</h1>

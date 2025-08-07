@@ -1,5 +1,5 @@
 import React, { Suspense } from 'react'
-import { Routes, Route, Navigate } from 'react-router-dom'
+import { Routes, Route, Navigate, useParams, useLocation, useNavigate } from 'react-router-dom'
 import { Spin } from 'antd'
 import { routes } from './index'
 
@@ -32,6 +32,52 @@ const AuthGuard = ({ children }) => {
   return children
 }
 
+// 页面组件包装器 - 自动注入必要的参数
+const PageWrapper = ({ Component, routeMeta, ...props }) => {
+  const params = useParams()
+  const location = useLocation()
+  const navigate = useNavigate()
+  
+  // 获取用户信息
+  const userInfo = {
+    id: localStorage.getItem('userId') || '1',
+    username: localStorage.getItem('username') || 'admin',
+    role: localStorage.getItem('userRole') || 'admin',
+    permissions: JSON.parse(localStorage.getItem('permissions') || '[]')
+  }
+  
+  // 创建增强的props对象
+  const enhancedProps = {
+    // 路由相关参数
+    params,
+    location,
+    navigate,
+    
+    // 页面配置参数
+    title: routeMeta?.title || '',
+    description: routeMeta?.description || '',
+    loading: false,
+    error: null,
+    
+    // 权限相关参数
+    permissions: userInfo.permissions,
+    userInfo,
+    
+    // 回调函数参数
+    onRefresh: () => {
+      console.log('页面刷新')
+    },
+    onError: (error) => {
+      console.error('页面错误:', error)
+    },
+    
+    // 扩展参数
+    ...props
+  }
+
+  return <Component {...enhancedProps} />
+}
+
 // 递归渲染路由
 const renderRoutes = (routes) => {
   return routes.map((route) => {
@@ -44,10 +90,16 @@ const renderRoutes = (routes) => {
     } else {
       const element = route.meta?.requiresAuth !== false ? (
         <AuthGuard>
-          <route.component />
+          <PageWrapper 
+            Component={route.component} 
+            routeMeta={route.meta}
+          />
         </AuthGuard>
       ) : (
-        <route.component />
+        <PageWrapper 
+          Component={route.component} 
+          routeMeta={route.meta}
+        />
       )
       
       return (

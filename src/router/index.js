@@ -19,6 +19,7 @@ export const routes = [
     component: Login,
     meta: {
       title: '登录',
+      description: '用户登录页面',
       icon: 'login',
       showInMenu: false,
       requiresAuth: false
@@ -30,6 +31,7 @@ export const routes = [
     component: Layout,
     meta: {
       title: '后台管理系统',
+      description: '系统主布局',
       icon: 'admin',
       showInMenu: false,
       requiresAuth: true,
@@ -42,6 +44,7 @@ export const routes = [
         component: Dashboard,
         meta: {
           title: '仪表盘',
+          description: '系统概览和统计数据',
           icon: 'dashboard',
           showInMenu: true
         }
@@ -52,6 +55,7 @@ export const routes = [
         component: UserManagement,
         meta: {
           title: '用户管理',
+          description: '管理系统用户信息',
           icon: 'user',
           showInMenu: true
         }
@@ -62,6 +66,7 @@ export const routes = [
         component: ProduceInfo,
         meta: {
           title: '产品介绍',
+          description: '产品详细信息展示',
           icon: 'file',
           showInMenu: true
         }
@@ -72,6 +77,7 @@ export const routes = [
         component: ContentManagement,
         meta: {
           title: '内容管理',
+          description: '管理系统内容信息',
           icon: 'file',
           showInMenu: true
         }
@@ -82,6 +88,7 @@ export const routes = [
         component: DataAnalysis,
         meta: {
           title: '数据分析',
+          description: '系统数据统计和分析',
           icon: 'bar-chart',
           showInMenu: true
         }
@@ -92,6 +99,7 @@ export const routes = [
         component: LogManagement,
         meta: {
           title: '日志管理',
+          description: '系统日志查看和管理',
           icon: 'file-text',
           showInMenu: true
         }
@@ -102,6 +110,7 @@ export const routes = [
         component: SystemSettings,
         meta: {
           title: '系统设置',
+          description: '系统配置和参数设置',
           icon: 'setting',
           showInMenu: true
         }
