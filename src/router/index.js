@@ -22,7 +22,11 @@ export const routes = [
       description: '用户登录页面',
       icon: 'login',
       showInMenu: false,
-      requiresAuth: false
+      requiresAuth: false,
+      // 登录页面只需要基本参数，不需要用户信息
+      injectParams: true,
+      injectUserInfo: false,
+      injectCallbacks: false
     }
   },
   {
@@ -35,7 +39,11 @@ export const routes = [
       icon: 'admin',
       showInMenu: false,
       requiresAuth: true,
-      layout: 'admin'
+      layout: 'admin',
+      // 布局组件需要所有参数
+      injectParams: true,
+      injectUserInfo: true,
+      injectCallbacks: true
     },
     children: [
       {
@@ -46,7 +54,11 @@ export const routes = [
           title: '仪表盘',
           description: '系统概览和统计数据',
           icon: 'dashboard',
-          showInMenu: true
+          showInMenu: true,
+          // 仪表盘需要用户信息和回调函数
+          injectParams: true,
+          injectUserInfo: true,
+          injectCallbacks: true
         }
       },
       {
@@ -57,7 +69,11 @@ export const routes = [
           title: '用户管理',
           description: '管理系统用户信息',
           icon: 'user',
-          showInMenu: true
+          showInMenu: true,
+          // 用户管理需要所有参数
+          injectParams: true,
+          injectUserInfo: true,
+          injectCallbacks: true
         }
       },
       {
@@ -68,7 +84,11 @@ export const routes = [
           title: '产品介绍',
           description: '产品详细信息展示',
           icon: 'file',
-          showInMenu: true
+          showInMenu: true,
+          // 产品介绍页面相对简单，只需要基本参数
+          injectParams: true,
+          injectUserInfo: false,
+          injectCallbacks: false
         }
       },
       {
@@ -79,7 +99,11 @@ export const routes = [
           title: '内容管理',
           description: '管理系统内容信息',
           icon: 'file',
-          showInMenu: true
+          showInMenu: true,
+          // 内容管理需要用户信息但不一定需要回调
+          injectParams: true,
+          injectUserInfo: true,
+          injectCallbacks: false
         }
       },
       {
@@ -90,7 +114,11 @@ export const routes = [
           title: '数据分析',
           description: '系统数据统计和分析',
           icon: 'bar-chart',
-          showInMenu: true
+          showInMenu: true,
+          // 数据分析需要用户信息和回调函数
+          injectParams: true,
+          injectUserInfo: true,
+          injectCallbacks: true
         }
       },
       {
@@ -101,7 +129,11 @@ export const routes = [
           title: '日志管理',
           description: '系统日志查看和管理',
           icon: 'file-text',
-          showInMenu: true
+          showInMenu: true,
+          // 日志管理需要用户信息
+          injectParams: true,
+          injectUserInfo: true,
+          injectCallbacks: false
         }
       },
       {
@@ -112,7 +144,11 @@ export const routes = [
           title: '系统设置',
           description: '系统配置和参数设置',
           icon: 'setting',
-          showInMenu: true
+          showInMenu: true,
+          // 系统设置需要所有参数
+          injectParams: true,
+          injectUserInfo: true,
+          injectCallbacks: true
         }
       }
     ]
