@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import { usePerformanceMonitor } from '@/utils/performance'
 
 function Dashboard({
   // 路由相关参数
@@ -23,10 +24,79 @@ function Dashboard({
   // 扩展参数
   ...props
 }) {
+  const { 
+    startRouteSwitch, 
+    endRouteSwitch, 
+    monitorComponentRender,
+    getPerformanceReport,
+    printPerformanceReport 
+  } = usePerformanceMonitor()
+
+  // 监控组件初始化性能
+  useEffect(() => {
+    // 开始监控路由切换
+    startRouteSwitch()
+    
+    // 模拟路由切换完成
+    setTimeout(() => {
+      endRouteSwitch('/dashboard')
+    }, 100)
+  }, [startRouteSwitch, endRouteSwitch])
+
+  // 手动触发性能监控
+  const handlePerformanceCheck = () => {
+    const report = getPerformanceReport()
+    console.log('📈 当前性能报告:', report)
+  }
+
+  // 打印详细性能报告
+  const handlePrintReport = () => {
+    printPerformanceReport()
+  }
+
   return (
     <div>
       <h1>{title || '仪表盘'}</h1>
       <p>{description || '系统概览和统计数据'}</p>
+      
+      {/* 性能监控控制面板 */}
+      <div style={{ 
+        marginTop: '20px', 
+        padding: '15px', 
+        backgroundColor: '#e6f7ff', 
+        borderRadius: '8px',
+        border: '1px solid #91d5ff'
+      }}>
+        <h3>🔧 性能监控控制面板</h3>
+        <div style={{ display: 'flex', gap: '10px', marginTop: '10px' }}>
+          <button 
+            onClick={handlePerformanceCheck}
+            style={{
+              padding: '8px 16px',
+              backgroundColor: '#1890ff',
+              color: 'white',
+              border: 'none',
+              borderRadius: '4px',
+              cursor: 'pointer'
+            }}
+          >
+            获取性能报告
+          </button>
+          <button 
+            onClick={handlePrintReport}
+            style={{
+              padding: '8px 16px',
+              backgroundColor: '#52c41a',
+              color: 'white',
+              border: 'none',
+              borderRadius: '4px',
+              cursor: 'pointer'
+            }}
+          >
+            打印详细报告
+          </button>
+        </div>
+      </div>
       
       {/* 用户信息展示 */}
       <div style={{ marginTop: '20px', padding: '15px', backgroundColor: '#f0f8ff', borderRadius: '8px' }}>

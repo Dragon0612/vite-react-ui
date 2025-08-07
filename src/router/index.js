@@ -10,6 +10,7 @@ const DataAnalysis = lazy(() => import('@/pages/DataAnalysis'))
 const ContentManagement = lazy(() => import('@/pages/ContentManagement'))
 const ProduceInfo = lazy(() => import('@/pages/produceInfo'))
 const LogManagement = lazy(() => import('@/pages/LogManagement'))
+const PerformanceDemo = lazy(() => import('@/components/PerformanceDemo'))
 
 // 路由配置
 export const routes = [
@@ -149,6 +150,21 @@ export const routes = [
           injectParams: true,
           injectUserInfo: true,
           injectCallbacks: true
+        }
+      },
+      {
+        path: 'performance-demo',
+        name: '性能监控演示',
+        component: PerformanceDemo,
+        meta: {
+          title: '性能监控演示',
+          description: '性能监控工具演示页面',
+          icon: 'monitor',
+          showInMenu: true,
+          // 演示页面需要基本参数
+          injectParams: true,
+          injectUserInfo: false,
+          injectCallbacks: false
         }
       }
     ]
