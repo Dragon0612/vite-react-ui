@@ -8,6 +8,7 @@ const UserManagement = lazy(() => import('@/pages/UserManagement'))
 const SystemSettings = lazy(() => import('@/pages/SystemSettings'))
 const DataAnalysis = lazy(() => import('@/pages/DataAnalysis'))
 const ContentManagement = lazy(() => import('@/pages/ContentManagement'))
+const ProduceInfo = lazy(() => import('@/pages/produceInfo'))
 const LogManagement = lazy(() => import('@/pages/LogManagement'))
 
 // 路由配置
@@ -52,6 +53,16 @@ export const routes = [
         meta: {
           title: '用户管理',
           icon: 'user',
+          showInMenu: true
+        }
+      },
+      {
+        path: 'produceInfo',
+        name: '产品介绍',
+        component: ProduceInfo,
+        meta: {
+          title: '产品介绍',
+          icon: 'file',
           showInMenu: true
         }
       },
