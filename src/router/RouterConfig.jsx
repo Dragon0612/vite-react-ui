@@ -140,7 +140,7 @@ const PageWrapper = ({ Component, routeMeta, ...props }) => {
 // 递归渲染路由
 const renderRoutes = (routes) => {
   return routes.map((route) => {
-    // 如果有子路由且不是菜单组（有component），则渲染嵌套路由
+    // 如果有子路由且有component，则渲染嵌套路由
     if (route.children && route.children.length > 0 && route.component) {
       return (
         <Route key={route.path} path={route.path} element={<route.component />}>
@@ -148,9 +148,13 @@ const renderRoutes = (routes) => {
         </Route>
       )
     }
-    // 如果是菜单组（没有component但有children），则只渲染子路由
+    // 如果是菜单组（没有component但有children），则渲染父路由并包含子路由
     else if (route.children && route.children.length > 0 && !route.component) {
-      return renderRoutes(route.children)
+      return (
+        <Route key={route.path} path={route.path}>
+          {renderRoutes(route.children)}
+        </Route>
+      )
     }
     // 普通路由
     else {

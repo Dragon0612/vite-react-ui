@@ -15,8 +15,8 @@ function SystemSettings() {
         <h3>测试信息</h3>
         <p>如果您能看到这个页面，说明二级菜单路由配置成功！</p>
         <ul>
-          <li>菜单组：系统管理</li>
-          <li>子菜单：系统设置</li>
+          <li>菜单组：系统管理 (/system)</li>
+          <li>子菜单：系统设置 (/system/settings)</li>
           <li>路由路径：/system/settings</li>
         </ul>
       </div>

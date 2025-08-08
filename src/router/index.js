@@ -63,7 +63,7 @@ export const routes = [
         }
       },
       {
-        path: '', // 菜单组路径设为空，避免路由冲突
+        path: 'system', // 为菜单组设置唯一路径
         name: '系统管理',
         component: null, // 父级路由不需要组件
         meta: {
@@ -75,7 +75,7 @@ export const routes = [
         },
         children: [
           {
-            path: 'system/users',
+            path: 'users', // 相对于父路径的路径
             name: '用户管理',
             component: UserManagement,
             meta: {
@@ -90,7 +90,7 @@ export const routes = [
             }
           },
           {
-            path: 'system/settings',
+            path: 'settings', // 相对于父路径的路径
             name: '系统设置',
             component: SystemSettings,
             meta: {
@@ -105,7 +105,7 @@ export const routes = [
             }
           },
           {
-            path: 'system/logs',
+            path: 'logs', // 相对于父路径的路径
             name: '日志管理',
             component: LogManagement,
             meta: {
@@ -122,7 +122,7 @@ export const routes = [
         ]
       },
       {
-        path: '', // 菜单组路径设为空，避免路由冲突
+        path: 'content', // 为菜单组设置唯一路径
         name: '内容管理',
         component: null, // 父级路由不需要组件
         meta: {
@@ -134,7 +134,7 @@ export const routes = [
         },
         children: [
           {
-            path: 'content/management',
+            path: 'management', // 相对于父路径的路径
             name: '内容管理',
             component: ContentManagement,
             meta: {
@@ -149,7 +149,7 @@ export const routes = [
             }
           },
           {
-            path: 'content/produceInfo',
+            path: 'produceInfo', // 相对于父路径的路径
             name: '产品介绍',
             component: ProduceInfo,
             meta: {
@@ -166,7 +166,7 @@ export const routes = [
         ]
       },
       {
-        path: '', // 菜单组路径设为空，避免路由冲突
+        path: 'analysis', // 为菜单组设置唯一路径
         name: '数据分析',
         component: null, // 父级路由不需要组件
         meta: {
@@ -178,7 +178,7 @@ export const routes = [
         },
         children: [
           {
-            path: 'analysis/data',
+            path: 'data', // 相对于父路径的路径
             name: '数据分析',
             component: DataAnalysis,
             meta: {
@@ -193,7 +193,7 @@ export const routes = [
             }
           },
           {
-            path: 'analysis/performance-demo',
+            path: 'performance-demo', // 相对于父路径的路径
             name: '性能监控演示',
             component: PerformanceDemo,
             meta: {

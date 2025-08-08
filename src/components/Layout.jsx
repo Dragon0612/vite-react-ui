@@ -41,13 +41,13 @@ const generateMenuItems = () => {
       // 如果是菜单组（有children且isGroup为true）
       if (route.meta?.isGroup && route.children) {
         return {
-          key: `group-${route.name}`, // 为菜单组设置唯一的key
+          key: `/${route.path}`, // 菜单组的路径
           icon: iconMap[route.meta?.icon] || <DashboardOutlined />,
           label: route.meta?.title || route.name,
           children: route.children
             .filter(child => child.meta?.showInMenu)
             .map(child => ({
-              key: `/${child.path}`, // 直接使用子菜单的完整路径
+              key: `/${route.path}/${child.path}`, // 完整的子菜单路径
               icon: iconMap[child.meta?.icon] || <DashboardOutlined />,
               label: child.meta?.title || child.name
             }))
