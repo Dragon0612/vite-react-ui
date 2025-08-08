@@ -63,109 +63,151 @@ export const routes = [
         }
       },
       {
-        path: 'users',
-        name: '用户管理',
-        component: UserManagement,
+        path: '', // 菜单组路径设为空，避免路由冲突
+        name: '系统管理',
+        component: null, // 父级路由不需要组件
         meta: {
-          title: '用户管理',
-          description: '管理系统用户信息',
-          icon: 'user',
-          showInMenu: true,
-          // 用户管理需要所有参数
-          injectParams: true,
-          injectUserInfo: true,
-          injectCallbacks: true
-        }
-      },
-      {
-        path: 'produceInfo',
-        name: '产品介绍',
-        component: ProduceInfo,
-        meta: {
-          title: '产品介绍',
-          description: '产品详细信息展示',
-          icon: 'file',
-          showInMenu: true,
-          // 产品介绍页面相对简单，只需要基本参数
-          injectParams: true,
-          injectUserInfo: false,
-          injectCallbacks: false
-        }
-      },
-      {
-        path: 'content',
-        name: '内容管理',
-        component: ContentManagement,
-        meta: {
-          title: '内容管理',
-          description: '管理系统内容信息',
-          icon: 'file',
-          showInMenu: true,
-          // 内容管理需要用户信息但不一定需要回调
-          injectParams: true,
-          injectUserInfo: true,
-          injectCallbacks: false
-        }
-      },
-      {
-        path: 'analysis',
-        name: '数据分析',
-        component: DataAnalysis,
-        meta: {
-          title: '数据分析',
-          description: '系统数据统计和分析',
-          icon: 'bar-chart',
-          showInMenu: true,
-          // 数据分析需要用户信息和回调函数
-          injectParams: true,
-          injectUserInfo: true,
-          injectCallbacks: true
-        }
-      },
-      {
-        path: 'logs',
-        name: '日志管理',
-        component: LogManagement,
-        meta: {
-          title: '日志管理',
-          description: '系统日志查看和管理',
-          icon: 'file-text',
-          showInMenu: true,
-          // 日志管理需要用户信息
-          injectParams: true,
-          injectUserInfo: true,
-          injectCallbacks: false
-        }
-      },
-      {
-        path: 'settings',
-        name: '系统设置',
-        component: SystemSettings,
-        meta: {
-          title: '系统设置',
-          description: '系统配置和参数设置',
+          title: '系统管理',
+          description: '系统相关功能管理',
           icon: 'setting',
           showInMenu: true,
-          // 系统设置需要所有参数
-          injectParams: true,
-          injectUserInfo: true,
-          injectCallbacks: true
-        }
+          isGroup: true, // 标记为菜单组
+        },
+        children: [
+          {
+            path: 'system/users',
+            name: '用户管理',
+            component: UserManagement,
+            meta: {
+              title: '用户管理',
+              description: '管理系统用户信息',
+              icon: 'user',
+              showInMenu: true,
+              // 用户管理需要所有参数
+              injectParams: true,
+              injectUserInfo: true,
+              injectCallbacks: true
+            }
+          },
+          {
+            path: 'system/settings',
+            name: '系统设置',
+            component: SystemSettings,
+            meta: {
+              title: '系统设置',
+              description: '系统配置和参数设置',
+              icon: 'setting',
+              showInMenu: true,
+              // 系统设置需要所有参数
+              injectParams: true,
+              injectUserInfo: true,
+              injectCallbacks: true
+            }
+          },
+          {
+            path: 'system/logs',
+            name: '日志管理',
+            component: LogManagement,
+            meta: {
+              title: '日志管理',
+              description: '系统日志查看和管理',
+              icon: 'file-text',
+              showInMenu: true,
+              // 日志管理需要用户信息
+              injectParams: true,
+              injectUserInfo: true,
+              injectCallbacks: false
+            }
+          }
+        ]
       },
       {
-        path: 'performance-demo',
-        name: '性能监控演示',
-        component: PerformanceDemo,
+        path: '', // 菜单组路径设为空，避免路由冲突
+        name: '内容管理',
+        component: null, // 父级路由不需要组件
         meta: {
-          title: '性能监控演示',
-          description: '性能监控工具演示页面',
-          icon: 'monitor',
+          title: '内容管理',
+          description: '内容相关功能管理',
+          icon: 'file',
           showInMenu: true,
-          // 演示页面需要基本参数
-          injectParams: true,
-          injectUserInfo: false,
-          injectCallbacks: false
-        }
+          isGroup: true, // 标记为菜单组
+        },
+        children: [
+          {
+            path: 'content/management',
+            name: '内容管理',
+            component: ContentManagement,
+            meta: {
+              title: '内容管理',
+              description: '管理系统内容信息',
+              icon: 'file',
+              showInMenu: true,
+              // 内容管理需要用户信息但不一定需要回调
+              injectParams: true,
+              injectUserInfo: true,
+              injectCallbacks: false
+            }
+          },
+          {
+            path: 'content/produceInfo',
+            name: '产品介绍',
+            component: ProduceInfo,
+            meta: {
+              title: '产品介绍',
+              description: '产品详细信息展示',
+              icon: 'file',
+              showInMenu: true,
+              // 产品介绍页面相对简单，只需要基本参数
+              injectParams: true,
+              injectUserInfo: false,
+              injectCallbacks: false
+            }
+          }
+        ]
+      },
+      {
+        path: '', // 菜单组路径设为空，避免路由冲突
+        name: '数据分析',
+        component: null, // 父级路由不需要组件
+        meta: {
+          title: '数据分析',
+          description: '数据分析和监控功能',
+          icon: 'bar-chart',
+          showInMenu: true,
+          isGroup: true, // 标记为菜单组
+        },
+        children: [
+          {
+            path: 'analysis/data',
+            name: '数据分析',
+            component: DataAnalysis,
+            meta: {
+              title: '数据分析',
+              description: '系统数据统计和分析',
+              icon: 'bar-chart',
+              showInMenu: true,
+              // 数据分析需要用户信息和回调函数
+              injectParams: true,
+              injectUserInfo: true,
+              injectCallbacks: true
+            }
+          },
+          {
+            path: 'analysis/performance-demo',
+            name: '性能监控演示',
+            component: PerformanceDemo,
+            meta: {
+              title: '性能监控演示',
+              description: '性能监控工具演示页面',
+              icon: 'monitor',
+              showInMenu: true,
+              // 演示页面需要基本参数
+              injectParams: true,
+              injectUserInfo: false,
+              injectCallbacks: false
+            }
+          }
+        ]
       }
     ]
   }

@@ -140,13 +140,20 @@ const PageWrapper = ({ Component, routeMeta, ...props }) => {
 // 递归渲染路由
 const renderRoutes = (routes) => {
   return routes.map((route) => {
-    if (route.children && route.children.length > 0) {
+    // 如果有子路由且不是菜单组（有component），则渲染嵌套路由
+    if (route.children && route.children.length > 0 && route.component) {
       return (
         <Route key={route.path} path={route.path} element={<route.component />}>
           {renderRoutes(route.children)}
         </Route>
       )
-    } else {
+    }
+    // 如果是菜单组（没有component但有children），则只渲染子路由
+    else if (route.children && route.children.length > 0 && !route.component) {
+      return renderRoutes(route.children)
+    }
+    // 普通路由
+    else {
       const element = route.meta?.requiresAuth !== false ? (
         <AuthGuard>
           <PageWrapper 

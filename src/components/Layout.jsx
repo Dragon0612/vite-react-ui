@@ -11,7 +11,8 @@ import {
   TeamOutlined,
   FileOutlined,
   BarChartOutlined,
-  FileTextOutlined
+  FileTextOutlined,
+  MonitorOutlined
 } from '@ant-design/icons'
 import { useNavigate, useLocation, Outlet } from 'react-router-dom'
 import { routes } from '@/router'
@@ -25,7 +26,8 @@ const iconMap = {
   'file': <FileOutlined />,
   'bar-chart': <BarChartOutlined />,
   'file-text': <FileTextOutlined />,
-  'setting': <SettingOutlined />
+  'setting': <SettingOutlined />,
+  'monitor': <MonitorOutlined />
 }
 
 // 从路由配置生成菜单项
@@ -35,11 +37,30 @@ const generateMenuItems = () => {
   
   return adminRoute.children
     .filter(route => route.meta?.showInMenu)
-    .map(route => ({
-      key: route.path === '' ? '/' : `/${route.path}`,
-      icon: iconMap[route.meta?.icon] || <DashboardOutlined />,
-      label: route.meta?.title || route.name
-    }))
+    .map(route => {
+      // 如果是菜单组（有children且isGroup为true）
+      if (route.meta?.isGroup && route.children) {
+        return {
+          key: `group-${route.name}`, // 为菜单组设置唯一的key
+          icon: iconMap[route.meta?.icon] || <DashboardOutlined />,
+          label: route.meta?.title || route.name,
+          children: route.children
+            .filter(child => child.meta?.showInMenu)
+            .map(child => ({
+              key: `/${child.path}`, // 直接使用子菜单的完整路径
+              icon: iconMap[child.meta?.icon] || <DashboardOutlined />,
+              label: child.meta?.title || child.name
+            }))
+        }
+      }
+      
+      // 普通菜单项
+      return {
+        key: route.path === '' ? '/' : `/${route.path}`,
+        icon: iconMap[route.meta?.icon] || <DashboardOutlined />,
+        label: route.meta?.title || route.name
+      }
+    })
 }
 
 // 用户下拉菜单
