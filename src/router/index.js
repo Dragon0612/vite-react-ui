@@ -11,6 +11,9 @@ const ContentManagement = lazy(() => import('@/pages/ContentManagement'))
 const ProduceInfo = lazy(() => import('@/pages/produceInfo'))
 const LogManagement = lazy(() => import('@/pages/LogManagement'))
 const PerformanceDemo = lazy(() => import('@/components/PerformanceDemo'))
+const About = lazy(() => import('@/pages/About'))
+const Help = lazy(() => import('@/pages/Help'))
+const Contact = lazy(() => import('@/pages/Contact'))
 
 // 路由配置
 export const routes = [
@@ -60,6 +63,51 @@ export const routes = [
           injectParams: true,
           injectUserInfo: true,
           injectCallbacks: true
+        }
+      },
+      {
+        path: 'about',
+        name: '关于我们',
+        component: About,
+        meta: {
+          title: '关于我们',
+          description: '关于页面信息',
+          icon: 'info-circle',
+          showInMenu: true,
+          // 关于页面只需要基本参数
+          injectParams: true,
+          injectUserInfo: false,
+          injectCallbacks: false
+        }
+      },
+      {
+        path: 'help',
+        name: '帮助中心',
+        component: Help,
+        meta: {
+          title: '帮助中心',
+          description: '帮助页面信息',
+          icon: 'question-circle',
+          showInMenu: true,
+          // 帮助页面只需要基本参数
+          injectParams: true,
+          injectUserInfo: false,
+          injectCallbacks: false
+        }
+      },
+      {
+        path: 'contact',
+        name: '联系我们',
+        component: Contact,
+        meta: {
+          title: '联系我们',
+          description: '联系页面信息',
+          icon: 'phone',
+          showInMenu: true,
+          // 联系页面只需要基本参数
+          injectParams: true,
+          injectUserInfo: false,
+          injectCallbacks: false
         }
       },
       {

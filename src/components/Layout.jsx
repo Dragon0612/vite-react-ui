@@ -12,7 +12,10 @@ import {
   FileOutlined,
   BarChartOutlined,
   FileTextOutlined,
-  MonitorOutlined
+  MonitorOutlined,
+  InfoCircleOutlined,
+  QuestionCircleOutlined,
+  PhoneOutlined
 } from '@ant-design/icons'
 import { useNavigate, useLocation, Outlet } from 'react-router-dom'
 import { routes } from '@/router'
@@ -27,7 +30,10 @@ const iconMap = {
   'bar-chart': <BarChartOutlined />,
   'file-text': <FileTextOutlined />,
   'setting': <SettingOutlined />,
-  'monitor': <MonitorOutlined />
+  'monitor': <MonitorOutlined />,
+  'info-circle': <InfoCircleOutlined />,
+  'question-circle': <QuestionCircleOutlined />,
+  'phone': <PhoneOutlined />
 }
 
 // 从路由配置生成菜单项
