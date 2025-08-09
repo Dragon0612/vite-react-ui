@@ -6,7 +6,7 @@ const Dashboard = lazy(() => import('@/pages/Dashboard'))
 const Login = lazy(() => import('@/pages/Login'))
 const UserManagement = lazy(() => import('@/pages/UserManagement'))
 const SystemSettings = lazy(() => import('@/pages/SystemSettings'))
-const DataAnalysis = lazy(() => import('@/pages/DataAnalysis'))
+const PerformanceTest = lazy(() => import('@/pages/performanceTest'))
 const ContentManagement = lazy(() => import('@/pages/ContentManagement'))
 const ProduceInfo = lazy(() => import('@/pages/produceInfo'))
 const LogManagement = lazy(() => import('@/pages/LogManagement'))
@@ -214,27 +214,27 @@ export const routes = [
         ]
       },
       {
-        path: 'analysis', // 为菜单组设置唯一路径
-        name: '数据分析',
+        path: 'performance', // 为菜单组设置唯一路径
+        name: '性能测试',
         component: null, // 父级路由不需要组件
         meta: {
-          title: '数据分析',
-          description: '数据分析和监控功能',
-          icon: 'bar-chart',
+          title: '性能测试',
+          description: '性能测试和监控功能',
+          icon: 'monitor',
           showInMenu: true,
           isGroup: true, // 标记为菜单组
         },
         children: [
           {
-            path: 'data', // 相对于父路径的路径
-            name: '数据分析',
-            component: DataAnalysis,
+            path: 'test', // 相对于父路径的路径
+            name: '性能测试',
+            component: PerformanceTest,
             meta: {
-              title: '数据分析',
-              description: '系统数据统计和分析',
-              icon: 'bar-chart',
+              title: '性能测试',
+              description: '系统性能测试和分析',
+              icon: 'monitor',
               showInMenu: true,
-              // 数据分析需要用户信息和回调函数
+              // 性能测试需要用户信息和回调函数
               injectParams: true,
               injectUserInfo: true,
               injectCallbacks: true
