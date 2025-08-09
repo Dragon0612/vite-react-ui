@@ -11,6 +11,7 @@ const ContentManagement = lazy(() => import('@/pages/ContentManagement'))
 const ProduceInfo = lazy(() => import('@/pages/produceInfo'))
 const LogManagement = lazy(() => import('@/pages/LogManagement'))
 const PerformanceDemo = lazy(() => import('@/components/PerformanceDemo'))
+const ApiDemo = lazy(() => import('@/components/ApiDemo'))
 const About = lazy(() => import('@/pages/About'))
 const Help = lazy(() => import('@/pages/Help'))
 const Contact = lazy(() => import('@/pages/Contact'))
@@ -248,6 +249,21 @@ export const routes = [
               title: '性能监控演示',
               description: '性能监控工具演示页面',
               icon: 'monitor',
+              showInMenu: true,
+              // 演示页面需要基本参数
+              injectParams: true,
+              injectUserInfo: false,
+              injectCallbacks: false
+            }
+          },
+          {
+            path: 'api-demo', // 相对于父路径的路径
+            name: 'API架构演示',
+            component: ApiDemo,
+            meta: {
+              title: 'API架构演示',
+              description: '新API管理架构演示页面',
+              icon: 'api',
               showInMenu: true,
               // 演示页面需要基本参数
               injectParams: true,
