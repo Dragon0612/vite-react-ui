@@ -13,6 +13,7 @@ const ApiDemo = lazy(() => import('@/pages/performanceTest/ApiDemo'))
 const About = lazy(() => import('@/pages/About'))
 const Help = lazy(() => import('@/pages/Help'))
 const Contact = lazy(() => import('@/pages/Contact'))
+const StateDemo = lazy(() => import('@/components/StateDemo'))
 // 路由配置
 export const routes = [
   {
@@ -246,6 +247,35 @@ export const routes = [
               title: 'API架构演示',
               description: '新API管理架构演示页面',
               icon: 'api',
+              showInMenu: true,
+              // 演示页面需要基本参数
+              injectParams: true,
+              injectUserInfo: false,
+              injectCallbacks: false
+            }
+          }
+        ]
+      },
+      {
+        path: 'dev-tools', // 为菜单组设置唯一路径
+        name: '开发工具',
+        component: null, // 父级路由不需要组件
+        meta: {
+          title: '开发工具',
+          description: '开发和调试工具',
+          icon: 'tool',
+          showInMenu: true,
+          isGroup: true, // 标记为菜单组
+        },
+        children: [
+          {
+            path: 'state-demo', // 相对于父路径的路径
+            name: '状态持久化演示',
+            component: StateDemo,
+            meta: {
+              title: '状态持久化演示',
+              description: 'Redux状态持久化功能演示',
+              icon: 'database',
               showInMenu: true,
               // 演示页面需要基本参数
               injectParams: true,
