@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { usePerformanceMonitor } from '@/utils/performance'
+import { usePerformanceMonitor } from '../../utils/performance'
 
 // 简单的性能监控演示组件
 const PerformanceDemo = () => {
@@ -228,3 +228,4 @@ console.log(report)`}
 }
 
 export default PerformanceDemo
+

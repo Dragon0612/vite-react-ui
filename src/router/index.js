@@ -1,21 +1,18 @@
 import { lazy } from 'react'
-
 // 懒加载组件
 const Layout = lazy(() => import('@/components/Layout'))
 const Dashboard = lazy(() => import('@/pages/Dashboard'))
 const Login = lazy(() => import('@/pages/Login'))
 const UserManagement = lazy(() => import('@/pages/UserManagement'))
 const SystemSettings = lazy(() => import('@/pages/SystemSettings'))
-const PerformanceTest = lazy(() => import('@/pages/performanceTest'))
 const ContentManagement = lazy(() => import('@/pages/ContentManagement'))
 const ProduceInfo = lazy(() => import('@/pages/produceInfo'))
 const LogManagement = lazy(() => import('@/pages/LogManagement'))
-const PerformanceDemo = lazy(() => import('@/components/PerformanceDemo'))
-const ApiDemo = lazy(() => import('@/components/ApiDemo'))
+const PerformanceDemo = lazy(() => import('@/pages/performanceTest/PerformanceDemo'))
+const ApiDemo = lazy(() => import('@/pages/performanceTest/ApiDemo'))
 const About = lazy(() => import('@/pages/About'))
 const Help = lazy(() => import('@/pages/Help'))
 const Contact = lazy(() => import('@/pages/Contact'))
-
 // 路由配置
 export const routes = [
   {
@@ -226,21 +223,6 @@ export const routes = [
           isGroup: true, // 标记为菜单组
         },
         children: [
-          {
-            path: 'test', // 相对于父路径的路径
-            name: '性能测试',
-            component: PerformanceTest,
-            meta: {
-              title: '性能测试',
-              description: '系统性能测试和分析',
-              icon: 'monitor',
-              showInMenu: true,
-              // 性能测试需要用户信息和回调函数
-              injectParams: true,
-              injectUserInfo: true,
-              injectCallbacks: true
-            }
-          },
           {
             path: 'performance-demo', // 相对于父路径的路径
             name: '性能监控演示',
