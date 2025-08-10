@@ -13,7 +13,7 @@ const ApiDemo = lazy(() => import('@/pages/performanceTest/ApiDemo'))
 const About = lazy(() => import('@/pages/About'))
 const Help = lazy(() => import('@/pages/Help'))
 const Contact = lazy(() => import('@/pages/Contact'))
-const StateDemo = lazy(() => import('@/components/StateDemo'))
+const StateDemo = lazy(() => import('@/pages/performanceTest/StateDemo'))
 // 路由配置
 export const routes = [
   {
@@ -253,21 +253,7 @@ export const routes = [
               injectUserInfo: false,
               injectCallbacks: false
             }
-          }
-        ]
-      },
-      {
-        path: 'dev-tools', // 为菜单组设置唯一路径
-        name: '开发工具',
-        component: null, // 父级路由不需要组件
-        meta: {
-          title: '开发工具',
-          description: '开发和调试工具',
-          icon: 'tool',
-          showInMenu: true,
-          isGroup: true, // 标记为菜单组
-        },
-        children: [
+          },
           {
             path: 'state-demo', // 相对于父路径的路径
             name: '状态持久化演示',
@@ -284,7 +270,7 @@ export const routes = [
             }
           }
         ]
-      }
+      },
     ]
   }
 ]
