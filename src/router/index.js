@@ -14,6 +14,8 @@ const About = lazy(() => import('@/pages/About'))
 const Help = lazy(() => import('@/pages/Help'))
 const Contact = lazy(() => import('@/pages/Contact'))
 const StateDemo = lazy(() => import('@/pages/performanceTest/StateDemo'))
+const KeepAliveDemo = lazy(() => import('@/pages/KeepAliveDemo'))
+const KeepAliveTest = lazy(() => import('@/pages/KeepAliveTest'))
 // 路由配置
 export const routes = [
   {
@@ -61,7 +63,10 @@ export const routes = [
           // 仪表盘需要用户信息和回调函数
           injectParams: true,
           injectUserInfo: true,
-          injectCallbacks: true
+          injectCallbacks: true,
+          // KeepAlive 配置
+          keepAlive: true,
+          cacheKey: 'dashboard'
         }
       },
       {
@@ -125,31 +130,37 @@ export const routes = [
             path: 'users', // 相对于父路径的路径
             name: '用户管理',
             component: UserManagement,
-            meta: {
-              title: '用户管理',
-              description: '管理系统用户信息',
-              icon: 'user',
-              showInMenu: true,
-              // 用户管理需要所有参数
-              injectParams: true,
-              injectUserInfo: true,
-              injectCallbacks: true
-            }
+                    meta: {
+          title: '用户管理',
+          description: '管理系统用户信息',
+          icon: 'user',
+          showInMenu: true,
+          // 用户管理需要所有参数
+          injectParams: true,
+          injectUserInfo: true,
+          injectCallbacks: true,
+          // KeepAlive 配置
+          keepAlive: true,
+          cacheKey: 'user-management'
+        }
           },
           {
             path: 'settings', // 相对于父路径的路径
             name: '系统设置',
             component: SystemSettings,
-            meta: {
-              title: '系统设置',
-              description: '系统配置和参数设置',
-              icon: 'setting',
-              showInMenu: true,
-              // 系统设置需要所有参数
-              injectParams: true,
-              injectUserInfo: true,
-              injectCallbacks: true
-            }
+                    meta: {
+          title: '系统设置',
+          description: '系统配置和参数设置',
+          icon: 'setting',
+          showInMenu: true,
+          // 系统设置需要所有参数
+          injectParams: true,
+          injectUserInfo: true,
+          injectCallbacks: true,
+          // KeepAlive 配置
+          keepAlive: true,
+          cacheKey: 'system-settings'
+        }
           },
           {
             path: 'logs', // 相对于父路径的路径
@@ -267,6 +278,42 @@ export const routes = [
               injectParams: true,
               injectUserInfo: false,
               injectCallbacks: false
+            }
+          },
+          {
+            path: 'keep-alive-demo', // 相对于父路径的路径
+            name: 'KeepAlive演示',
+            component: KeepAliveDemo,
+            meta: {
+              title: 'KeepAlive演示',
+              description: 'KeepAlive功能演示和测试页面',
+              icon: 'database',
+              showInMenu: true,
+              // 演示页面需要基本参数
+              injectParams: true,
+              injectUserInfo: false,
+              injectCallbacks: false,
+              // KeepAlive 配置
+              keepAlive: true,
+              cacheKey: 'keep-alive-demo'
+            }
+          },
+          {
+            path: 'keep-alive-test', // 相对于父路径的路径
+            name: 'KeepAlive测试',
+            component: KeepAliveTest,
+            meta: {
+              title: 'KeepAlive测试',
+              description: 'KeepAlive功能简单测试页面',
+              icon: 'test',
+              showInMenu: true,
+              // 演示页面需要基本参数
+              injectParams: true,
+              injectUserInfo: false,
+              injectCallbacks: false,
+              // KeepAlive 配置
+              keepAlive: true,
+              cacheKey: 'keep-alive-test'
             }
           }
         ]

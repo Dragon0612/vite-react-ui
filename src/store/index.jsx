@@ -1,12 +1,14 @@
 import { configureStore } from '@reduxjs/toolkit'
 import userReducer from './slices/userSlice.js'
 import settingsReducer from './slices/settingsSlice.js'
+import keepAliveReducer from './slices/keepAliveSlice.js'
 import { createPersistMiddleware } from './persist.js'
 
 export const store = configureStore({
   reducer: {
     user: userReducer,
     settings: settingsReducer,
+    keepAlive: keepAliveReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

@@ -2,6 +2,7 @@ import React, { Suspense, useMemo, useCallback, createContext, useContext } from
 import { Routes, Route, Navigate, useParams, useLocation, useNavigate } from 'react-router-dom'
 import { Spin } from 'antd'
 import { routes } from './index'
+import KeepAlive from '@/components/KeepAlive'
 
 // 创建用户信息Context
 const UserContext = createContext()
@@ -134,7 +135,24 @@ const PageWrapper = ({ Component, routeMeta, ...props }) => {
     props
   ])
 
-  return <Component {...enhancedProps} />
+  // 判断是否需要 KeepAlive
+  const needsKeepAlive = routeMeta?.keepAlive === true
+  
+  const componentElement = <Component {...enhancedProps} />
+  
+  if (needsKeepAlive) {
+    return (
+      <KeepAlive
+        include={[location.pathname]}
+        maxCache={10}
+        scrollRestoration={true}
+      >
+        {componentElement}
+      </KeepAlive>
+    )
+  }
+  
+  return componentElement
 }
 
 // 递归渲染路由
