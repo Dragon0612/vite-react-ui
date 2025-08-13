@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Tabs, Card, Typography, Space, Tag } from 'antd'
 import { SettingOutlined, DatabaseOutlined, MonitorOutlined } from '@ant-design/icons'
-import KeepAlivePanel from '@/components/KeepAlivePanel'
+import KeepAlivePanel from './components/KeepAlivePanel'
 import { useKeepAlive } from '@/hooks/useKeepAlive'
 
 const { Title, Paragraph } = Typography
