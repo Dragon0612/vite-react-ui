@@ -1,45 +1,89 @@
 # Vite React UI - 后台管理框架
 
-这是一个基于 Vite + React + Ant Design 的纯后台管理框架系统，提供了完整的后台管理基础架构。
+这是一个基于 **Vite + React + Ant Design** 的现代化后台管理框架系统，提供了完整的后台管理基础架构和丰富的功能特性。
 
-## 主要特性
+## 🚀 主要特性
 
-- 🚀 **Vite** - 快速的构建工具
-- ⚛️ **React 19** - 最新的 React 版本
-- 🎨 **Ant Design** - 企业级 UI 组件库
-- 🛣️ **React Router** - 路由管理
-- 📦 **Redux Toolkit** - 状态管理
-- 🎯 **TypeScript 支持** - 完整的类型支持
-- 📱 **响应式设计** - 适配各种屏幕尺寸
-- 🔐 **权限控制** - 基于路由的权限管理
-- 🎨 **主题定制** - 支持主题切换和定制
+- ⚡ **Vite 7** - 极速的构建工具和开发体验
+- ⚛️ **React 18** - 稳定的 React 版本，支持最新特性
+- 🎨 **Ant Design 5** - 企业级 UI 组件库，支持主题定制
+- 🛣️ **React Router 7** - 现代化的路由管理系统
+- 📦 **Redux Toolkit** - 高效的状态管理解决方案
+- 🔄 **KeepAlive** - 智能页面缓存系统，提升用户体验
+- 🌐 **API 架构** - 完整的 HTTP 客户端和中间件系统
+- 📱 **响应式设计** - 完美适配各种屏幕尺寸
+- 🔐 **权限控制** - 基于路由的权限管理系统
+- 🎨 **主题系统** - 支持主题切换和深度定制
+- 🧹 **代码规范** - ESLint 9 + 现代化代码规范
 
-## 项目结构
+## 📁 项目结构
 
 ```
 src/
-├── components/          # 通用组件
-│   ├── Layout.jsx      # 后台布局组件
-│   └── Button.jsx      # 通用按钮组件
-├── pages/              # 页面组件
-│   ├── Dashboard.jsx   # 仪表盘页面
-│   └── Login.jsx       # 登录页面
-├── router/             # 路由配置
-│   ├── index.js        # 路由定义
-│   └── RouterConfig.jsx # 路由配置组件
-├── store/              # 状态管理
-│   └── index.jsx       # Redux store 配置
-├── hooks/              # 自定义 Hooks
-│   └── useLocalStorage.js # 本地存储 Hook
-├── styles/             # 样式文件
-│   ├── global.less     # 全局样式
-│   ├── variables.less  # 样式变量
-│   └── mixins.less     # 样式混入
-└── services/           # 服务层
-    └── index.js        # 服务导出
+├── components/                 # 通用组件
+│   ├── Layout.jsx             # 后台布局组件
+│   ├── Button.jsx             # 通用按钮组件
+│   ├── KeepAlive.jsx          # KeepAlive 核心组件
+│   └── KeepAlivePanel.jsx     # 缓存管理面板
+├── pages/                     # 页面组件
+│   ├── Dashboard.jsx          # 仪表盘页面
+│   ├── Login.jsx              # 登录页面
+│   ├── UserManagement.jsx     # 用户管理
+│   ├── SystemSettings.jsx     # 系统设置（集成KeepAlive管理）
+│   ├── ContentManagement.jsx  # 内容管理
+│   ├── LogManagement.jsx      # 日志管理
+│   ├── About.jsx              # 关于页面
+│   ├── Help.jsx               # 帮助页面
+│   ├── Contact.jsx            # 联系页面
+│   └── performanceTest/       # 性能测试演示
+│       ├── PerformanceDemo.jsx
+│       ├── ApiDemo.jsx
+│       └── StateDemo.jsx
+├── router/                    # 路由配置
+│   ├── index.js               # 路由定义和配置
+│   └── RouterConfig.jsx       # 路由配置组件
+├── store/                     # 状态管理
+│   ├── index.jsx              # Redux store 配置
+│   ├── slices/                # Redux 切片
+│   │   ├── appSlice.js        # 应用状态
+│   │   ├── userSlice.js       # 用户状态
+│   │   ├── settingsSlice.js   # 设置状态
+│   │   └── keepAliveSlice.js  # KeepAlive 状态
+│   └── hooks.js               # Redux 自定义 hooks
+├── hooks/                     # 自定义 Hooks
+│   ├── useKeepAlive.js        # KeepAlive 管理 Hook
+│   ├── useLocalStorage.js     # 本地存储 Hook
+│   ├── useApi.js              # API 调用 Hook
+│   └── useRequest.js          # 请求管理 Hook
+├── services/                  # 服务层
+│   ├── api/                   # API 服务架构
+│   │   ├── BaseApiService.js  # 基础 API 服务
+│   │   ├── HttpClient.js      # HTTP 客户端
+│   │   ├── middleware.js      # 中间件系统
+│   │   ├── config.js          # 配置管理
+│   │   ├── types.js           # 类型定义
+│   │   └── services/          # 具体服务实现
+│   │       ├── AuthService.js # 认证服务
+│   │       └── UserService.js # 用户服务
+│   └── index.js               # 服务导出
+├── styles/                    # 样式文件
+│   ├── global.less            # 全局样式
+│   ├── variables.less         # 样式变量
+│   ├── mixins.less            # 样式混入
+│   └── keepAlive.less         # KeepAlive 样式
+└── utils/                     # 工具函数
+    ├── api.js                 # API 工具
+    ├── storage.js             # 存储工具
+    ├── performance.js         # 性能工具
+    └── request.js             # 请求工具
 ```
 
-## 快速开始
+## 🚀 快速开始
+
+### 环境要求
+
+- Node.js >= 18.0.0
+- npm >= 8.0.0 或 yarn >= 1.22.0
 
 ### 安装依赖
 
@@ -65,69 +109,121 @@ npm run build
 yarn build
 ```
 
-## 框架特性
+### 代码检查
 
-### 1. 路由管理
-- 基于 React Router 的路由系统
+```bash
+npm run lint
+# 或
+yarn lint
+```
+
+## 🎯 核心功能
+
+### 1. 🛣️ 路由管理系统
+- 基于 React Router 7 的现代化路由系统
 - 支持嵌套路由和懒加载
-- 路由权限控制
+- 路由权限控制和元数据配置
+- 智能菜单生成和分组
 
-### 2. 状态管理
-- 使用 Redux Toolkit 进行状态管理
-- 模块化的 reducer 设计
-- 支持异步操作
+### 2. 📦 状态管理
+- 使用 Redux Toolkit 进行高效状态管理
+- 模块化的 slice 设计
+- 支持异步操作和中间件
+- 状态持久化支持
 
-### 3. 组件系统
-- 基于 Ant Design 的组件库
+### 3. 🔄 KeepAlive 缓存系统
+- 智能页面缓存，避免重复渲染
+- 状态保持和滚动位置恢复
+- 自动缓存管理和清理
+- 可视化缓存管理面板
+
+### 4. 🌐 API 架构系统
+- 完整的 HTTP 客户端管理
+- 中间件系统支持
+- 统一的错误处理和拦截器
+- 支持多种环境配置
+
+### 5. 🎨 UI 组件系统
+- 基于 Ant Design 5 的企业级组件
 - 响应式布局设计
+- 主题定制和切换支持
 - 可复用的组件结构
 
-### 4. 样式系统
-- Less 预处理器
-- 全局样式变量
-- 主题定制支持
+### 6. 🎨 样式系统
+- Less 预处理器支持
+- 全局样式变量和混入
+- 主题定制和动态切换
+- Tailwind CSS 集成支持
 
-### 5. 开发工具
-- ESLint 代码规范
-- Vite 快速构建
-- 热更新支持
-
-## 扩展指南
+## 🔧 扩展指南
 
 ### 添加新页面
 1. 在 `src/pages/` 目录下创建新页面组件
 2. 在 `src/router/index.js` 中添加路由配置
-3. 在 `src/components/Layout.jsx` 中添加菜单项
+3. 配置页面元数据和权限
 
 ### 添加新服务
-1. 在 `src/services/` 目录下创建服务文件
-2. 在 `src/services/index.js` 中导出服务
+1. 在 `src/services/api/services/` 目录下创建服务文件
+2. 继承 `BaseApiService` 类
+3. 在 `src/services/api/index.js` 中导出服务
 
 ### 添加新组件
 1. 在 `src/components/` 目录下创建组件
-2. 遵循组件设计规范
+2. 遵循组件设计规范和命名约定
+3. 添加必要的类型定义和文档
 
-### 添加新 Hook
-1. 在 `src/hooks/` 目录下创建自定义 Hook
-2. 遵循 React Hooks 规范
+### 配置 KeepAlive
+1. 在路由配置中添加 `keepAlive: true` 和 `cacheKey`
+2. 使用 `useKeepAlive` Hook 管理缓存
+3. 通过 `KeepAlivePanel` 监控缓存状态
 
-## 技术栈
+## 🛠️ 技术栈
 
-- **构建工具**: Vite
-- **前端框架**: React 19
-- **UI 组件库**: Ant Design 4.24.0
-- **路由管理**: React Router DOM
-- **状态管理**: Redux Toolkit
-- **样式预处理**: Less
-- **代码规范**: ESLint
+- **构建工具**: Vite 7.0.4
+- **前端框架**: React 18.3.1
+- **UI 组件库**: Ant Design 5.26.7
+- **路由管理**: React Router DOM 7.7.1
+- **状态管理**: Redux Toolkit 2.8.2 + React Redux 9.2.0
+- **HTTP 客户端**: Axios 1.11.0
+- **样式预处理**: Less 4.4.0 + Tailwind CSS 4.1.11
+- **代码规范**: ESLint 9.30.1
+- **开发工具**: PostCSS 8.5.6 + Autoprefixer 10.4.21
 
-## 浏览器支持
+## 🌍 浏览器支持
 
 - Chrome >= 87
 - Firefox >= 78
 - Safari >= 14
 - Edge >= 88
 
-## 许可证
+## 📚 相关文档
 
-MIT License
+- [KeepAlive 功能说明](./KEEPALIVE_README.md) - KeepAlive 缓存系统详细文档
+- [API 集成指南](./API_INTEGRATION_GUIDE.md) - API 架构使用指南
+- [路径别名配置](./PATH_ALIAS_README.md) - 项目路径配置说明
+- [Ant Design 使用指南](./ANTD_README.md) - UI 组件库使用说明
+- [KeepAlive 使用指南](./KEEPALIVE_README.md) - 缓存功能使用说明
+
+## 🤝 贡献指南
+
+1. Fork 本仓库
+2. 创建特性分支 (`git checkout -b feature/AmazingFeature`)
+3. 提交更改 (`git commit -m 'Add some AmazingFeature'`)
+4. 推送到分支 (`git push origin feature/AmazingFeature`)
+5. 开启 Pull Request
+
+## 📄 许可证
+
+本项目采用 MIT 许可证 - 查看 [LICENSE](LICENSE) 文件了解详情
+
+## 🆘 支持
+
+如果您在使用过程中遇到问题，请：
+
+1. 查看相关文档
+2. 搜索已有的 Issues
+3. 创建新的 Issue 并详细描述问题
+
+---
+
+**享受开发！** 🎉
