@@ -16,67 +16,6 @@
 - 🎨 **主题系统** - 支持主题切换和深度定制
 - 🧹 **代码规范** - ESLint 9 + 现代化代码规范
 
-## 📁 项目结构
-
-```
-src/
-├── components/                 # 通用组件
-│   ├── Layout.jsx             # 后台布局组件
-│   ├── Button.jsx             # 通用按钮组件
-│   ├── KeepAlive.jsx          # KeepAlive 核心组件
-│   └── KeepAlivePanel.jsx     # 缓存管理面板
-├── pages/                     # 页面组件
-│   ├── Dashboard.jsx          # 仪表盘页面
-│   ├── Login.jsx              # 登录页面
-│   ├── UserManagement.jsx     # 用户管理
-│   ├── SystemSettings.jsx     # 系统设置（集成KeepAlive管理）
-│   ├── ContentManagement.jsx  # 内容管理
-│   ├── LogManagement.jsx      # 日志管理
-│   ├── About.jsx              # 关于页面
-│   ├── Help.jsx               # 帮助页面
-│   ├── Contact.jsx            # 联系页面
-│   └── performanceTest/       # 性能测试演示
-│       ├── PerformanceDemo.jsx
-│       ├── ApiDemo.jsx
-│       └── StateDemo.jsx
-├── router/                    # 路由配置
-│   ├── index.js               # 路由定义和配置
-│   └── RouterConfig.jsx       # 路由配置组件
-├── store/                     # 状态管理
-│   ├── index.jsx              # Redux store 配置
-│   ├── slices/                # Redux 切片
-│   │   ├── appSlice.js        # 应用状态
-│   │   ├── userSlice.js       # 用户状态
-│   │   ├── settingsSlice.js   # 设置状态
-│   │   └── keepAliveSlice.js  # KeepAlive 状态
-│   └── hooks.js               # Redux 自定义 hooks
-├── hooks/                     # 自定义 Hooks
-│   ├── useKeepAlive.js        # KeepAlive 管理 Hook
-│   ├── useLocalStorage.js     # 本地存储 Hook
-│   ├── useApi.js              # API 调用 Hook
-│   └── useRequest.js          # 请求管理 Hook
-├── services/                  # 服务层
-│   ├── api/                   # API 服务架构
-│   │   ├── BaseApiService.js  # 基础 API 服务
-│   │   ├── HttpClient.js      # HTTP 客户端
-│   │   ├── middleware.js      # 中间件系统
-│   │   ├── config.js          # 配置管理
-│   │   ├── types.js           # 类型定义
-│   │   └── services/          # 具体服务实现
-│   │       ├── AuthService.js # 认证服务
-│   │       └── UserService.js # 用户服务
-│   └── index.js               # 服务导出
-├── styles/                    # 样式文件
-│   ├── global.less            # 全局样式
-│   ├── variables.less         # 样式变量
-│   ├── mixins.less            # 样式混入
-│   └── keepAlive.less         # KeepAlive 样式
-└── utils/                     # 工具函数
-    ├── api.js                 # API 工具
-    ├── storage.js             # 存储工具
-    ├── performance.js         # 性能工具
-    └── request.js             # 请求工具
-```
 
 ## 🚀 快速开始
 
@@ -198,11 +137,12 @@ yarn lint
 
 ## 📚 相关文档
 
-- [KeepAlive 功能说明](./KEEPALIVE_README.md) - KeepAlive 缓存系统详细文档
-- [API 集成指南](./API_INTEGRATION_GUIDE.md) - API 架构使用指南
-- [路径别名配置](./PATH_ALIAS_README.md) - 项目路径配置说明
-- [Ant Design 使用指南](./ANTD_README.md) - UI 组件库使用说明
-- [KeepAlive 使用指南](./KEEPALIVE_README.md) - 缓存功能使用说明
+- [📖 完整文档索引](./docs/) - 所有技术文档和使用指南
+- [🚀 API 集成指南](./docs/API_INTEGRATION_GUIDE.md) - API 架构使用指南
+- [🔄 KeepAlive 使用指南](./docs/KEEPALIVE_README.md) - 缓存功能使用说明
+- [🛠️ 路径别名配置](./docs/PATH_ALIAS_README.md) - 项目路径配置说明
+- [🎨 Ant Design 使用指南](./docs/ANTD_README.md) - UI 组件库使用说明
+- [👨‍💼 管理员指南](./docs/ADMIN_README.md) - 系统管理操作指南
 
 ## 🤝 贡献指南
 
