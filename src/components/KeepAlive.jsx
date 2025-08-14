@@ -1,14 +1,8 @@
-import React, { useState, useEffect, useRef, useMemo } from 'react'
+import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react'
 import { useLocation } from 'react-router-dom'
 
 /**
  * KeepAlive 组件 - 实现页面缓存功能
- * @param {Object} props
- * @param {React.ReactNode} props.children - 子组件
- * @param {Array} props.include - 需要缓存的路径数组
- * @param {Array} props.exclude - 不需要缓存的路径数组
- * @param {number} props.maxCache - 最大缓存数量，默认10
- * @param {boolean} props.scrollRestoration - 是否恢复滚动位置，默认true
  */
 const KeepAlive = ({ 
   children, 
@@ -22,46 +16,39 @@ const KeepAlive = ({
   const [cachedComponents, setCachedComponents] = useState(new Map())
   const [activePages, setActivePages] = useState([])
   const scrollPositions = useRef(new Map())
+  const componentRefs = useRef(new Map())
+  const isInitialized = useRef(false)
   
   // 判断当前路径是否需要缓存
   const shouldCache = useMemo(() => {
-    // 如果 include 为空，则缓存所有页面（除了 exclude 中的）
     if (include.length === 0) {
       return !exclude.includes(currentPath)
     }
-    // 如果 include 不为空，则只缓存 include 中的页面
     return include.includes(currentPath) && !exclude.includes(currentPath)
   }, [currentPath, include, exclude])
 
-  // 调试信息
-  console.log('KeepAlive Debug:', {
-    currentPath,
-    include,
-    exclude,
-    shouldCache,
-    cachedComponents: Array.from(cachedComponents.keys())
-  })
-
   // 保存滚动位置
-  const saveScrollPosition = (path) => {
+  const saveScrollPosition = useCallback((path) => {
     if (scrollRestoration) {
       const scrollTop = window.pageYOffset || document.documentElement.scrollTop
       scrollPositions.current.set(path, scrollTop)
     }
-  }
+  }, [scrollRestoration])
 
   // 恢复滚动位置
-  const restoreScrollPosition = (path) => {
+  const restoreScrollPosition = useCallback((path) => {
     if (scrollRestoration) {
       const scrollTop = scrollPositions.current.get(path)
       if (scrollTop !== undefined) {
-        window.scrollTo(0, scrollTop)
+        requestAnimationFrame(() => {
+          window.scrollTo(0, scrollTop)
+        })
       }
     }
-  }
+  }, [scrollRestoration])
 
   // 清理过期缓存
-  const cleanupExpiredCache = () => {
+  const cleanupExpiredCache = useCallback(() => {
     if (cachedComponents.size > maxCache) {
       const entries = Array.from(cachedComponents.entries())
       const toRemove = entries.slice(0, entries.length - maxCache)
@@ -69,68 +56,99 @@ const KeepAlive = ({
       toRemove.forEach(([path]) => {
         cachedComponents.delete(path)
         scrollPositions.current.delete(path)
+        componentRefs.current.delete(path)
       })
       
       setCachedComponents(new Map(cachedComponents))
     }
-  }
+  }, [cachedComponents, maxCache])
+
+  // 初始化缓存 - 关键修复：在组件挂载时立即缓存
+  useEffect(() => {
+    if (!isInitialized.current && shouldCache) {
+      // 立即缓存当前页面
+      const componentToCache = React.cloneElement(children, {
+        key: currentPath,
+        'data-keepalive-path': currentPath
+      })
+      
+      setCachedComponents(new Map([[currentPath, componentToCache]]))
+      setActivePages([currentPath])
+      
+      console.log(`KeepAlive: 初始化时立即缓存页面 ${currentPath}`)
+      isInitialized.current = true
+    }
+  }, [shouldCache, currentPath, children]) // 添加必要的依赖，确保缓存逻辑正确执行
 
   // 处理路由变化
   useEffect(() => {
-    if (shouldCache) {
-      // 保存当前页面的滚动位置
-      saveScrollPosition(currentPath)
-      
-      // 添加到活跃页面列表
-      if (!activePages.includes(currentPath)) {
-        setActivePages(prev => [...prev, currentPath])
-      }
-      
-      // 缓存组件
-      if (!cachedComponents.has(currentPath)) {
-        setCachedComponents(prev => {
-          const newMap = new Map(prev)
-          newMap.set(currentPath, children)
-          return newMap
-        })
-      }
-      
-      // 恢复滚动位置
-      setTimeout(() => restoreScrollPosition(currentPath), 0)
+    if (!shouldCache) return
+
+    // 保存当前页面的滚动位置
+    saveScrollPosition(currentPath)
+    
+    // 添加到活跃页面列表
+    if (!activePages.includes(currentPath)) {
+      setActivePages(prev => [...prev, currentPath])
     }
+    
+    // 缓存组件
+    if (!cachedComponents.has(currentPath)) {
+      const componentToCache = React.cloneElement(children, {
+        key: currentPath,
+        'data-keepalive-path': currentPath
+      })
+      
+      setCachedComponents(prev => {
+        const newMap = new Map(prev)
+        newMap.set(currentPath, componentToCache)
+        return newMap
+      })
+      
+      console.log(`KeepAlive: 首次缓存页面 ${currentPath}`)
+    } else {
+      console.log(`KeepAlive: 使用缓存页面 ${currentPath}`)
+    }
+    
+    // 恢复滚动位置
+    setTimeout(() => restoreScrollPosition(currentPath), 100)
     
     // 清理过期缓存
     cleanupExpiredCache()
-  }, [currentPath, shouldCache, children])
+  }, [currentPath, shouldCache, children, saveScrollPosition, restoreScrollPosition, cleanupExpiredCache])
 
   // 清理缓存的方法
-  const clearCache = (path) => {
+  const clearCache = useCallback((path) => {
     if (path) {
-      // 清理指定路径的缓存
       setCachedComponents(prev => {
         const newMap = new Map(prev)
         newMap.delete(path)
         return newMap
       })
       scrollPositions.current.delete(path)
+      componentRefs.current.delete(path)
       setActivePages(prev => prev.filter(p => p !== path))
+      console.log(`KeepAlive: 清理页面缓存 ${path}`)
     } else {
-      // 清理所有缓存
       setCachedComponents(new Map())
       scrollPositions.current.clear()
+      componentRefs.current.clear()
       setActivePages([])
+      isInitialized.current = false
+      console.log('KeepAlive: 清理所有缓存')
     }
-  }
+  }, [])
 
   // 获取缓存统计信息
-  const getCacheInfo = () => {
+  const getCacheInfo = useCallback(() => {
     return {
       totalCached: cachedComponents.size,
       activePages: activePages.length,
       maxCache,
-      cachedPaths: Array.from(cachedComponents.keys())
+      cachedPaths: Array.from(cachedComponents.keys()),
+      isInitialized: isInitialized.current
     }
-  }
+  }, [cachedComponents.size, activePages.length, maxCache])
 
   // 暴露方法给父组件
   useEffect(() => {
@@ -139,14 +157,27 @@ const KeepAlive = ({
         clearCache,
         getCacheInfo,
         cachedComponents: cachedComponents,
-        activePages
+        activePages,
+        isInitialized: isInitialized.current
       }
     }
-  }, [cachedComponents, activePages])
+  }, [cachedComponents, activePages, clearCache, getCacheInfo])
+
+  // 调试信息
+  useEffect(() => {
+    console.log('KeepAlive Debug:', {
+      currentPath,
+      include,
+      exclude,
+      shouldCache,
+      cachedComponents: Array.from(cachedComponents.keys()),
+      activePages,
+      isInitialized: isInitialized.current
+    })
+  }, [currentPath, include, exclude, shouldCache, cachedComponents, activePages])
 
   // 渲染逻辑
   if (shouldCache && cachedComponents.has(currentPath)) {
-    // 渲染缓存的组件
     console.log('KeepAlive: 渲染缓存的组件', currentPath)
     return (
       <div className="keep-alive-container">
@@ -155,7 +186,15 @@ const KeepAlive = ({
             key={path}
             className={`keep-alive-page ${path === currentPath ? 'active' : 'hidden'}`}
             style={{
-              display: path === currentPath ? 'block' : 'none'
+              display: path === currentPath ? 'block' : 'none',
+              position: 'relative',
+              width: '100%',
+              height: '100%'
+            }}
+            ref={(el) => {
+              if (el) {
+                componentRefs.current.set(path, el)
+              }
             }}
           >
             {component}
@@ -167,7 +206,18 @@ const KeepAlive = ({
 
   // 不需要缓存或首次访问，直接渲染
   console.log('KeepAlive: 直接渲染组件', currentPath, 'shouldCache:', shouldCache)
-  return children
+  return (
+    <div
+      className="keep-alive-page active"
+      ref={(el) => {
+        if (el) {
+          componentRefs.current.set(currentPath, el)
+        }
+      }}
+    >
+      {children}
+    </div>
+  )
 }
 
 export default KeepAlive

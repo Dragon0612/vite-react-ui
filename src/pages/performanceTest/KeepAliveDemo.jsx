@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
-import { Card, Button, Space, Typography, Divider, Alert, Tag, Row, Col } from 'antd'
-import { ReloadOutlined, DatabaseOutlined, MonitorOutlined, InfoCircleOutlined } from '@ant-design/icons'
+import { Card, Button, Space, Typography, Divider, Alert, Tag, Row, Col, Badge } from 'antd'
+import { ReloadOutlined, DatabaseOutlined, MonitorOutlined, InfoCircleOutlined, BugOutlined } from '@ant-design/icons'
 import { useKeepAlive } from '@/hooks/useKeepAlive'
 
 const { Title, Paragraph, Text } = Typography
@@ -13,6 +13,7 @@ const KeepAliveDemo = () => {
   const [count, setCount] = useState(0)
   const [inputValue, setInputValue] = useState('')
   const [timestamp, setTimestamp] = useState(Date.now())
+  const [showDebug, setShowDebug] = useState(false)
   
   const {
     isCached,
@@ -55,11 +56,91 @@ const KeepAliveDemo = () => {
     setCount(0)
   }
 
+  // 获取 KeepAlive 调试信息
+  const getKeepAliveDebugInfo = () => {
+    if (window.__keepAlive) {
+      return window.__keepAlive.getCacheInfo()
+    }
+    return null
+  }
+
+  const debugInfo = getKeepAliveDebugInfo()
+
   return (
     <div style={{ padding: '20px' }}>
+      {/* 调试面板 */}
+      {showDebug && (
+        <Card 
+          title={
+            <Space>
+              <BugOutlined />
+              调试面板
+            </Space>
+          } 
+          size="small" 
+          style={{ 
+            position: 'fixed', 
+            top: '80px', 
+            right: '20px', 
+            width: '300px', 
+            zIndex: 1000,
+            backgroundColor: 'rgba(255, 255, 255, 0.95)',
+            backdropFilter: 'blur(10px)'
+          }}
+        >
+          <Space direction="vertical" size="small" style={{ width: '100%' }}>
+            <div>
+              <Text strong>当前路径:</Text> <Text code>{currentPath}</Text>
+            </div>
+            <div>
+              <Text strong>缓存状态:</Text> 
+              <Badge 
+                status={isCached() ? 'success' : 'default'} 
+                text={isCached() ? '已缓存' : '未缓存'} 
+              />
+            </div>
+            <div>
+              <Text strong>活跃状态:</Text> 
+              <Badge 
+                status={isActive() ? 'processing' : 'default'} 
+                text={isActive() ? '活跃' : '非活跃'} 
+              />
+            </div>
+            {debugInfo && (
+              <>
+                <div>
+                  <Text strong>总缓存:</Text> <Text code>{debugInfo.totalCached}</Text>
+                </div>
+                <div>
+                  <Text strong>活跃页面:</Text> <Text code>{debugInfo.activePages}</Text>
+                </div>
+                <div>
+                  <Text strong>缓存路径:</Text>
+                  <div style={{ maxHeight: '100px', overflow: 'auto' }}>
+                    {debugInfo.cachedPaths.map(path => (
+                      <Tag key={path} size="small" style={{ margin: '2px' }}>
+                        {path}
+                      </Tag>
+                    ))}
+                  </div>
+                </div>
+              </>
+            )}
+          </Space>
+        </Card>
+      )}
+
       <Title level={2}>
         <DatabaseOutlined style={{ marginRight: '8px' }} />
         KeepAlive 功能演示
+        <Button 
+          type="text" 
+          icon={<BugOutlined />} 
+          onClick={() => setShowDebug(!showDebug)}
+          style={{ marginLeft: '10px' }}
+        >
+          {showDebug ? '隐藏调试' : '显示调试'}
+        </Button>
       </Title>
       
       <Alert

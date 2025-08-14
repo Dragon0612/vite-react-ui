@@ -1,5 +1,4 @@
 /* KeepAlive 组件样式 */
-
 .keep-alive-container {
   position: relative;
   width: 100%;
@@ -12,11 +11,69 @@
   
   &.active {
     display: block !important;
-    animation: fadeIn 0.3s ease-in-out;
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.2s ease-in-out;
   }
   
   &.hidden {
     display: none !important;
+    opacity: 0;
+    visibility: hidden;
+    position: absolute;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+  }
+}
+
+// 页面切换动画
+.keep-alive-page-enter {
+  opacity: 0;
+  transform: translateX(20px);
+}
+
+.keep-alive-page-enter-active {
+  opacity: 1;
+  transform: translateX(0);
+  transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
+
+.keep-alive-page-exit {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.keep-alive-page-exit-active {
+  opacity: 0;
+  transform: translateX(-20px);
+  transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
+
+// 调试样式
+.keep-alive-debug {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 10px;
+  border-radius: 4px;
+  font-size: 12px;
+  z-index: 9999;
+  max-width: 300px;
+  
+  .debug-item {
+    margin-bottom: 5px;
+    
+    .label {
+      font-weight: bold;
+      margin-right: 5px;
+    }
+    
+    .value {
+      color: #52c41a;
+    }
   }
 }
 

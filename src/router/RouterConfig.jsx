@@ -138,12 +138,16 @@ const PageWrapper = ({ Component, routeMeta, ...props }) => {
   // 判断是否需要 KeepAlive
   const needsKeepAlive = routeMeta?.keepAlive === true
   
-  const componentElement = <Component {...enhancedProps} />
+  // 创建组件元素
+  const componentElement = useMemo(() => (
+    <Component {...enhancedProps} />
+  ), [Component, enhancedProps])
   
   if (needsKeepAlive) {
     return (
       <KeepAlive
         include={[location.pathname]}
+        exclude={['/login']}
         maxCache={10}
         scrollRestoration={true}
       >

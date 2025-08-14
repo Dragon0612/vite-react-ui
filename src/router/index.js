@@ -15,6 +15,7 @@ const Help = lazy(() => import('@/pages/Help'))
 const Contact = lazy(() => import('@/pages/Contact'))
 const StateDemo = lazy(() => import('@/pages/performanceTest/StateDemo'))
 const KeepAliveDemo = lazy(() => import('@/pages/performanceTest/KeepAliveDemo'))
+const KeepAliveTest = lazy(() => import('@/pages/performanceTest/KeepAliveTest'))
 
 // 路由配置
 export const routes = [
@@ -296,6 +297,24 @@ export const routes = [
               // KeepAlive 配置
               keepAlive: true,
               cacheKey: 'keep-alive-demo'
+            }
+          },
+          {
+            path: 'keep-alive-test', // 相对于父路径的路径
+            name: 'KeepAlive测试',
+            component: KeepAliveTest,
+            meta: {
+              title: 'KeepAlive测试',
+              description: 'KeepAlive功能测试页面',
+              icon: 'experiment',
+              showInMenu: true,
+              // 演示页面需要基本参数
+              injectParams: true,
+              injectUserInfo: false,
+              injectCallbacks: false,
+              // KeepAlive 配置
+              keepAlive: true,
+              cacheKey: 'keep-alive-test'
             }
           },
 
