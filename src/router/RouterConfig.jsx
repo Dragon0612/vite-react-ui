@@ -1,39 +1,9 @@
-import React, { Suspense, useMemo, useCallback, createContext, useContext } from 'react'
+import React, { Suspense, useMemo, useCallback } from 'react'
 import { Routes, Route, Navigate, useParams, useLocation, useNavigate } from 'react-router-dom'
 import { Spin } from 'antd'
 import { routes } from './index'
 import KeepAlive from '@/components/KeepAlive'
-
-// 创建用户信息Context
-const UserContext = createContext()
-
-// 用户信息Provider组件
-const UserProvider = ({ children }) => {
-  const userInfo = useMemo(() => {
-    const permissions = localStorage.getItem('permissions')
-    return {
-      id: localStorage.getItem('userId') || '1',
-      username: localStorage.getItem('username') || 'admin',
-      role: localStorage.getItem('userRole') || 'admin',
-      permissions: permissions ? JSON.parse(permissions) : []
-    }
-  }, [])
-
-  return (
-    <UserContext.Provider value={userInfo}>
-      {children}
-    </UserContext.Provider>
-  )
-}
-
-// 自定义Hook获取用户信息
-const useUserInfo = () => {
-  const context = useContext(UserContext)
-  if (!context) {
-    throw new Error('useUserInfo must be used within UserProvider')
-  }
-  return context
-}
+import { useUserInfo } from '@/providers/AppProvider'
 
 // 加载中组件
 const LoadingComponent = () => (
@@ -64,14 +34,14 @@ const AuthGuard = ({ children }) => {
   return children
 }
 
-// 优化的页面组件包装器 - 条件注入参数，避免不必要的计算
+// 优化的页面组件包装器
 const PageWrapper = ({ Component, routeMeta, ...props }) => {
   const params = useParams()
   const location = useLocation()
   const navigate = useNavigate()
   const userInfo = useUserInfo()
   
-  // 使用useCallback缓存回调函数，避免重复创建
+  // 使用useCallback缓存回调函数
   const onRefresh = useCallback(() => {
     console.log('页面刷新')
   }, [])
@@ -85,12 +55,9 @@ const PageWrapper = ({ Component, routeMeta, ...props }) => {
   const shouldInjectUserInfo = routeMeta?.injectUserInfo !== false
   const shouldInjectCallbacks = routeMeta?.injectCallbacks !== false
   
-  // 使用useMemo缓存增强的props对象，只在依赖项变化时重新创建
+  // 使用useMemo缓存增强的props对象
   const enhancedProps = useMemo(() => {
-    const baseProps = {
-      // 扩展参数
-      ...props
-    }
+    const baseProps = { ...props }
     
     // 条件注入路由参数
     if (shouldInjectParams) {
@@ -208,15 +175,13 @@ const renderRoutes = (routes) => {
 // 路由配置组件
 function RouterConfig() {
   return (
-    <UserProvider>
-      <Suspense fallback={<LoadingComponent />}>
-        <Routes>
-          {renderRoutes(routes)}
-          {/* 默认重定向到首页 */}
-          <Route path="*" element={<Navigate to="/" replace />} />
-        </Routes>
-      </Suspense>
-    </UserProvider>
+    <Suspense fallback={<LoadingComponent />}>
+      <Routes>
+        {renderRoutes(routes)}
+        {/* 默认重定向到首页 */}
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
+    </Suspense>
   )
 }
 
