@@ -2,7 +2,7 @@ import { lazy } from 'react'
 // 懒加载组件
 const Layout = lazy(() => import('@/components/Layout'))
 const Dashboard = lazy(() => import('@/pages/Dashboard'))
-const Login = lazy(() => import('@/pages/Login'))
+const Login = lazy(() => import('@/pages/login'))
 const UserManagement = lazy(() => import('@/pages/UserManagement'))
 const SystemSettings = lazy(() => import('@/pages/systemSettings'))
 const ContentManagement = lazy(() => import('@/pages/ContentManagement'))

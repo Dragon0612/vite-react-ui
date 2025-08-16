@@ -1,11 +1,15 @@
-import React from 'react'
-import { Card, Form, Input, Button, Checkbox, message } from 'antd'
+import React, { useState } from 'react'
+import { Card, Form, Input, Button, Checkbox, message, Typography } from 'antd'
 import { UserOutlined, LockOutlined } from '@ant-design/icons'
 import { useNavigate } from 'react-router-dom'
+import ForgotPassword from './ForgotPassword'
+
+const { Link } = Typography
 
 const Login = () => {
   const navigate = useNavigate()
   const [form] = Form.useForm()
+  const [isForgotPasswordVisible, setIsForgotPasswordVisible] = useState(false)
 
   const onFinish = (values) => {
     console.log('登录信息:', values)
@@ -13,6 +17,14 @@ const Login = () => {
     localStorage.setItem('token', 'mock-token')
     message.success('登录成功')
     navigate('/')
+  }
+
+  const handleForgotPassword = () => {
+    setIsForgotPasswordVisible(true)
+  }
+
+  const handleForgotPasswordCancel = () => {
+    setIsForgotPasswordVisible(false)
   }
 
   return (
@@ -57,10 +69,19 @@ const Login = () => {
             />
           </Form.Item>
 
-          <Form.Item>
-            <Form.Item name="remember" valuePropName="checked" noStyle>
-              <Checkbox>记住我</Checkbox>
-            </Form.Item>
+          <Form.Item style={{ marginBottom: '12px' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <Form.Item name="remember" valuePropName="checked" noStyle>
+                <Checkbox>记住我</Checkbox>
+              </Form.Item>
+              <Link 
+                type="primary" 
+                onClick={handleForgotPassword}
+                style={{ fontSize: '14px' }}
+              >
+                忘记密码？
+              </Link>
+            </div>
           </Form.Item>
 
           <Form.Item>
@@ -70,8 +91,14 @@ const Login = () => {
           </Form.Item>
         </Form>
       </Card>
+
+      {/* 忘记密码组件 */}
+      <ForgotPassword 
+        visible={isForgotPasswordVisible}
+        onCancel={handleForgotPasswordCancel}
+      />
     </div>
   )
 }
 
-export default Login 
+export default Login
