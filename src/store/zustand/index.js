@@ -2,6 +2,13 @@
 export { useKeepAliveTestStore } from './keepAliveTestStore'
 export { useUserStore } from './userStore'
 export { useSettingsStore } from './settingsStore'
+export { usePermissionStore } from './permissionStore'
+export { 
+  PERMISSION_TYPES, 
+  DEFAULT_ROLES, 
+  DEFAULT_PERMISSIONS, 
+  ROLE_PERMISSIONS 
+} from './permissionStore'
 export * from './hooks'
 export * from './utils'
 

@@ -14,8 +14,8 @@ const About = lazy(() => import('@/pages/About'))
 const Help = lazy(() => import('@/pages/Help'))
 const Contact = lazy(() => import('@/pages/Contact'))
 const StateDemo = lazy(() => import('@/pages/performanceTest/StateDemo'))
-
 const KeepAliveTest = lazy(() => import('@/pages/performanceTest/KeepAliveTest'))
+const PermissionManagement = lazy(() => import('@/pages/permissionManagerment'))
 
 // 路由配置
 export const routes = [
@@ -176,6 +176,24 @@ export const routes = [
               injectParams: true,
               injectUserInfo: true,
               injectCallbacks: false
+            }
+          },
+          {
+            path: 'permissions', // 相对于父路径的路径
+            name: '权限管理',
+            component: PermissionManagement,
+            meta: {
+              title: '权限管理',
+              description: '系统权限和角色管理',
+              icon: 'safety',
+              showInMenu: true,
+              // 权限管理需要用户信息
+              injectParams: true,
+              injectUserInfo: true,
+              injectCallbacks: true,
+              // KeepAlive 配置
+              keepAlive: true,
+              cacheKey: 'permission-management'
             }
           }
         ]
