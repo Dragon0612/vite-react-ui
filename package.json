@@ -5,9 +5,14 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "vite build --mode production",
+    "build:analyze": "node scripts/analyze.js",
+    "preview": "vite preview",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "lint:fix": "eslint . --fix",
+    "type-check": "tsc --noEmit",
+    "performance": "node scripts/performance.js",
+    "build:full": "npm run build && npm run performance"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.8.2",
@@ -35,6 +40,7 @@
     "less": "^4.4.0",
     "postcss": "^8.5.6",
     "tailwindcss": "^4.1.11",
+    "terser": "^5.43.1",
     "vite": "^7.0.4"
   }
 }
