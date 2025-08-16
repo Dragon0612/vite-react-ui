@@ -1,61 +1,67 @@
-import { useDispatch, useSelector } from 'react-redux'
-
-// 类型化的 useSelector hook
-export const useAppSelector = useSelector
-
-// 类型化的 useDispatch hook
-export const useAppDispatch = useDispatch
+import { useUserStore, useSettingsStore } from '@/store/zustand'
 
 // 便捷的用户状态 hooks
 export const useUser = () => {
-  return useSelector(state => state.user)
+  return useUserStore()
 }
 
 export const useUserInfo = () => {
-  return useSelector(state => state.user.user)
+  return useUserStore(state => state.userInfo)
 }
 
 export const useIsLoggedIn = () => {
-  return useSelector(state => state.user.isLoggedIn)
+  return useUserStore(state => state.isLoggedIn)
 }
 
 export const useToken = () => {
-  return useSelector(state => state.user.token)
+  return useUserStore(state => state.token)
 }
 
 export const useTheme = () => {
-  return useSelector(state => state.user.theme)
+  return useUserStore(state => state.theme)
 }
 
 export const useLanguage = () => {
-  return useSelector(state => state.user.language)
+  return useUserStore(state => state.language)
 }
 
 // 便捷的设置状态 hooks
 export const useSettings = () => {
-  return useSelector(state => state.settings)
+  return useSettingsStore()
 }
 
 export const useSidebarCollapsed = () => {
-  return useSelector(state => state.settings.sidebarCollapsed)
+  return useSettingsStore(state => state.layout.sidebarCollapsed)
 }
 
 export const useBreadcrumbVisible = () => {
-  return useSelector(state => state.settings.breadcrumbVisible)
+  return useSettingsStore(state => state.ui.showBreadcrumb)
 }
 
 export const usePageSize = () => {
-  return useSelector(state => state.settings.pageSize)
+  return useSettingsStore(state => state.ui.pageSize || 10)
 }
 
 export const useAutoSave = () => {
-  return useSelector(state => state.settings.autoSave)
+  return useSettingsStore(state => state.system.autoSave)
 }
 
 export const useNotifications = () => {
-  return useSelector(state => state.settings.notifications)
+  return useSettingsStore(state => state.system.notifications)
 }
 
 export const useLayout = () => {
-  return useSelector(state => state.settings.layout)
+  return useSettingsStore(state => state.layout)
+}
+
+// 兼容性导出（为了保持现有代码不变）
+export const useAppSelector = (selector) => {
+  // 这里可以根据需要实现一个通用的selector
+  console.warn('useAppSelector is deprecated, please use Zustand stores directly')
+  return null
+}
+
+export const useAppDispatch = () => {
+  console.warn('useAppDispatch is deprecated, please use Zustand stores directly')
+  return null
 }

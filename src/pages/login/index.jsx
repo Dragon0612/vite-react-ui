@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { Card, Form, Input, Button, Checkbox, message, Typography } from 'antd'
 import { UserOutlined, LockOutlined } from '@ant-design/icons'
 import { useNavigate } from 'react-router-dom'
+import { useUserStore } from '@/store/zustand'
 import ForgotPassword from './ForgotPassword'
 
 const { Link } = Typography
@@ -10,13 +11,41 @@ const Login = () => {
   const navigate = useNavigate()
   const [form] = Form.useForm()
   const [isForgotPasswordVisible, setIsForgotPasswordVisible] = useState(false)
+  const [loading, setLoading] = useState(false)
+  
+  // 使用Zustand状态管理
+  const { login } = useUserStore()
 
-  const onFinish = (values) => {
+  const onFinish = async (values) => {
     console.log('登录信息:', values)
-    // 模拟登录成功
-    localStorage.setItem('token', 'mock-token')
-    message.success('登录成功')
-    navigate('/')
+    setLoading(true)
+    
+    try {
+      // 模拟登录API调用
+      await new Promise(resolve => setTimeout(resolve, 1000))
+      
+      // 模拟登录成功数据
+      const mockUserData = {
+        user: {
+          id: 1,
+          username: values.username,
+          email: `${values.username}@example.com`,
+          role: 'admin',
+          permissions: ['read', 'write', 'admin']
+        },
+        token: 'mock-token-' + Date.now()
+      }
+      
+      // 使用Zustand登录
+      login(mockUserData)
+      
+      message.success('登录成功')
+      navigate('/')
+    } catch (error) {
+      message.error('登录失败，请重试')
+    } finally {
+      setLoading(false)
+    }
   }
 
   const handleForgotPassword = () => {
@@ -85,7 +114,13 @@ const Login = () => {
           </Form.Item>
 
           <Form.Item>
-            <Button type="primary" htmlType="submit" size="large" block>
+            <Button 
+              type="primary" 
+              htmlType="submit" 
+              size="large" 
+              block
+              loading={loading}
+            >
               登录
             </Button>
           </Form.Item>

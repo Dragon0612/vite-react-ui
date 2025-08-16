@@ -3,7 +3,7 @@ import { Routes, Route, Navigate, useParams, useLocation, useNavigate } from 're
 import { Spin } from 'antd'
 import { routes } from './index'
 import KeepAlive from '@/components/KeepAlive'
-import { useUserInfo } from '@/providers/AppProvider'
+import { useUserStore } from '@/store/zustand'
 
 // 加载中组件
 const LoadingComponent = () => (
@@ -19,15 +19,15 @@ const LoadingComponent = () => (
 
 // 认证检查组件
 const AuthGuard = ({ children }) => {
-  const token = localStorage.getItem('token')
+  const { token, isLoggedIn } = useUserStore()
   const location = window.location.pathname
   const isLoginPage = location === '/login'
   
-  if (!token && !isLoginPage) {
+  if (!token && !isLoggedIn && !isLoginPage) {
     return <Navigate to="/login" replace />
   }
   
-  if (token && isLoginPage) {
+  if ((token || isLoggedIn) && isLoginPage) {
     return <Navigate to="/" replace />
   }
   
@@ -39,7 +39,7 @@ const PageWrapper = ({ Component, routeMeta, ...props }) => {
   const params = useParams()
   const location = useLocation()
   const navigate = useNavigate()
-  const userInfo = useUserInfo()
+  const { userInfo } = useUserStore()
   
   // 使用useCallback缓存回调函数
   const onRefresh = useCallback(() => {

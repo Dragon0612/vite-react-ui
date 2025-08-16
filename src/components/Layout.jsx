@@ -18,6 +18,7 @@ import {
   PhoneOutlined
 } from '@ant-design/icons'
 import { useNavigate, useLocation, Outlet } from 'react-router-dom'
+import { useUserStore } from '@/store/zustand'
 import { routes } from '@/router'
 
 const { Header, Sider, Content } = Layout
@@ -69,30 +70,33 @@ const generateMenuItems = () => {
     })
 }
 
-// 用户下拉菜单
-const userMenuItems = [
-  {
-    key: 'profile',
-    icon: <UserOutlined />,
-    label: '个人资料'
-  },
-  {
-    key: 'settings',
-    icon: <SettingOutlined />,
-    label: '账户设置'
-  },
-  { type: 'divider' },
-  {
-    key: 'logout',
-    icon: <LogoutOutlined />,
-    label: '退出登录'
-  }
-]
-
 function AdminLayout() {
   const [collapsed, setCollapsed] = useState(false)
   const navigate = useNavigate()
   const location = useLocation()
+  
+  // 使用Zustand状态管理
+  const { userInfo, logout } = useUserStore()
+
+  // 用户下拉菜单
+  const userMenuItems = [
+    {
+      key: 'profile',
+      icon: <UserOutlined />,
+      label: '个人资料'
+    },
+    {
+      key: 'settings',
+      icon: <SettingOutlined />,
+      label: '账户设置'
+    },
+    { type: 'divider' },
+    {
+      key: 'logout',
+      icon: <LogoutOutlined />,
+      label: '退出登录'
+    }
+  ]
 
   const handleMenuClick = ({ key }) => {
     navigate(key)
@@ -100,7 +104,8 @@ function AdminLayout() {
 
   const handleUserMenuClick = ({ key }) => {
     if (key === 'logout') {
-      localStorage.removeItem('token')
+      // 使用Zustand登出
+      logout()
       navigate('/login')
     } else if (key === 'profile') {
       navigate('/profile')
@@ -192,7 +197,9 @@ function AdminLayout() {
                   icon={<UserOutlined />}
                   style={{ backgroundColor: '#1890ff' }}
                 />
-                <span style={{ color: '#666' }}>管理员</span>
+                <span style={{ color: '#666' }}>
+                  {userInfo?.username || '管理员'}
+                </span>
               </Space>
             </Dropdown>
           </Space>

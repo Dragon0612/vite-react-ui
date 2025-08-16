@@ -1,14 +1,19 @@
-import { persistState } from './persist.js'
-
 // 状态管理工具函数
 export const stateUtils = {
   // 获取所有持久化状态
   getAllPersistedState: () => {
-    const keys = ['user', 'settings']
+    const keys = ['user-storage', 'settings-storage']
     const state = {}
     
     keys.forEach(key => {
-      state[key] = persistState.load(key, {})
+      try {
+        const item = localStorage.getItem(key)
+        if (item) {
+          state[key] = JSON.parse(item)
+        }
+      } catch (error) {
+        console.warn(`Failed to load state for ${key}:`, error)
+      }
     })
     
     return state
@@ -16,7 +21,10 @@ export const stateUtils = {
   
   // 清除所有持久化状态
   clearAllPersistedState: () => {
-    persistState.clear()
+    const keys = ['user-storage', 'settings-storage']
+    keys.forEach(key => {
+      localStorage.removeItem(key)
+    })
   },
   
   // 导出状态到文件
@@ -41,10 +49,10 @@ export const stateUtils = {
           const state = JSON.parse(e.target.result)
           
           // 验证状态结构
-          if (state.user && state.settings) {
+          if (state['user-storage'] || state['settings-storage']) {
             // 保存到 localStorage
             Object.keys(state).forEach(key => {
-              persistState.save(key, state[key])
+              localStorage.setItem(key, JSON.stringify(state[key]))
             })
             resolve(state)
           } else {
@@ -101,13 +109,13 @@ export const stateUtils = {
 export const stateValidation = {
   // 验证用户状态
   validateUserState: (state) => {
-    const required = ['user', 'token', 'isLoggedIn', 'theme', 'language']
+    const required = ['user', 'token', 'isLoggedIn', 'userInfo', 'theme', 'language']
     return required.every(key => key in state)
   },
   
   // 验证设置状态
   validateSettingsState: (state) => {
-    const required = ['sidebarCollapsed', 'breadcrumbVisible', 'pageSize', 'autoSave']
+    const required = ['layout', 'system', 'ui']
     return required.every(key => key in state)
   },
   

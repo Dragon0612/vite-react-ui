@@ -116,13 +116,11 @@ import ZustandProvider from '@/store/zustand/ZustandProvider'
 function App() {
   return (
     <ConfigProvider locale={zhCN}>
-      <StoreProvider>
-        <ZustandProvider>
-          <Router>
-            <RouterConfig />
-          </Router>
-        </ZustandProvider>
-      </StoreProvider>
+      <ZustandProvider>
+        <Router>
+          <RouterConfig />
+        </Router>
+      </ZustandProvider>
     </ConfigProvider>
   )
 }
@@ -220,13 +218,11 @@ import ZustandProvider from '@/store/zustand/ZustandProvider'
 function App() {
   return (
     <ConfigProvider locale={zhCN}>
-      <StoreProvider>
-        <ZustandProvider>
-          <Router>
-            <RouterConfig />
-          </Router>
-        </ZustandProvider>
-      </StoreProvider>
+      <ZustandProvider>
+        <Router>
+          <RouterConfig />
+        </Router>
+      </ZustandProvider>
     </ConfigProvider>
   )
 }
@@ -370,7 +366,7 @@ src/store/zustand/
 4. **性能优先**: 只持久化必要的状态
 
 ### 与现有架构的集成
-- **Redux**: 保持现有 Redux 用于全局状态
+- **Zustand**: 使用 Zustand 进行全局状态管理
 - **KeepAlive**: 与 KeepAlive 机制完美配合
 - **Ant Design**: 完全兼容现有 UI 组件
 
@@ -501,7 +497,7 @@ measureStorePerformance('计数器增加', () => {
 
 ### 相关技术
 - **React Hooks**: useState, useEffect, useCallback
-- **状态管理**: Redux Toolkit, Zustand, Context API
+- **状态管理**: Zustand, Context API
 - **性能优化**: React.memo, useMemo, 选择器模式
 
 ## 🔄 更新日志

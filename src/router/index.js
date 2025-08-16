@@ -272,7 +272,7 @@ export const routes = [
             component: StateDemo,
             meta: {
               title: '状态持久化演示',
-              description: 'Redux状态持久化功能演示',
+              description: 'Zustand状态持久化功能演示',
               icon: 'database',
               showInMenu: true,
               // 演示页面需要基本参数

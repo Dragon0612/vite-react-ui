@@ -37,7 +37,7 @@ export default defineConfig({
           // 将路由相关打包到router
           router: ['react-router-dom'],
           // 将状态管理相关打包到store
-          store: ['@reduxjs/toolkit', 'react-redux', 'zustand'],
+                         store: ['zustand'],
           // 将HTTP客户端打包到http
           http: ['axios'],
         },
@@ -65,8 +65,8 @@ export default defineConfig({
       'react-dom',
       'antd',
       'react-router-dom',
-      '@reduxjs/toolkit',
-      'react-redux',
+               // '@reduxjs/toolkit', // 已移除Redux
+               // 'react-redux', // 已移除Redux
       'zustand',
       'axios',
     ],

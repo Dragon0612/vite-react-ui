@@ -33,7 +33,7 @@ export default defineConfig({
           vendor: ['react', 'react-dom'],
           antd: ['antd'],
           router: ['react-router-dom'],
-          store: ['@reduxjs/toolkit', 'react-redux', 'zustand'],
+                         store: ['zustand'],
           http: ['axios'],
         },
       },

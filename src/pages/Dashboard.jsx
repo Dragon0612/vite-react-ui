@@ -1,127 +1,141 @@
-import React, { useEffect } from 'react'
-import { usePerformanceMonitor } from '@/utils/performance'
+import React from 'react'
+import { Card, Row, Col, Statistic, Typography, Space, Tag } from 'antd'
+import { 
+  UserOutlined, 
+  FileOutlined, 
+  TeamOutlined, 
+  BarChartOutlined,
+  CheckCircleOutlined,
+  ClockCircleOutlined
+} from '@ant-design/icons'
+import { useUserStore } from '@/store/zustand'
 
-function Dashboard({
-  // 路由相关参数
-  params,
-  location,
-  navigate,
-  
-  // 页面配置参数
-  title,
-  description,
-  loading,
-  error,
-  
-  // 权限相关参数
-  permissions,
-  userInfo,
-  
-  // 回调函数参数
-  onRefresh,
-  onError,
-  
-  // 扩展参数
-  ...props
-}) {
-  const { 
-    startRouteSwitch, 
-    endRouteSwitch, 
-    monitorComponentRender,
-    getPerformanceReport,
-    printPerformanceReport 
-  } = usePerformanceMonitor()
+const { Title, Text } = Typography
 
-  // 监控组件初始化性能
-  useEffect(() => {
-    // 开始监控路由切换
-    startRouteSwitch()
-    
-    // 模拟路由切换完成
-    setTimeout(() => {
-      endRouteSwitch('/dashboard')
-    }, 100)
-  }, [startRouteSwitch, endRouteSwitch])
-
-  // 手动触发性能监控
-  const handlePerformanceCheck = () => {
-    const report = getPerformanceReport()
-    console.log('📈 当前性能报告:', report)
-  }
-
-  // 打印详细性能报告
-  const handlePrintReport = () => {
-    printPerformanceReport()
-  }
+const Dashboard = () => {
+  const { userInfo, isLoggedIn, token } = useUserStore()
 
   return (
     <div>
-      <h1>{title || '仪表盘'}</h1>
-      <p>{description || '系统概览和统计数据'}</p>
+      <Title level={2}>仪表盘</Title>
       
-      {/* 性能监控控制面板 */}
-      <div style={{ 
-        marginTop: '20px', 
-        padding: '15px', 
-        backgroundColor: '#e6f7ff', 
-        borderRadius: '8px',
-        border: '1px solid #91d5ff'
-      }}>
-        <h3>🔧 性能监控控制面板</h3>
-        <div style={{ display: 'flex', gap: '10px', marginTop: '10px' }}>
-          <button 
-            onClick={handlePerformanceCheck}
-            style={{
-              padding: '8px 16px',
-              backgroundColor: '#1890ff',
-              color: 'white',
-              border: 'none',
-              borderRadius: '4px',
-              cursor: 'pointer'
-            }}
-          >
-            获取性能报告
-          </button>
-          <button 
-            onClick={handlePrintReport}
-            style={{
-              padding: '8px 16px',
-              backgroundColor: '#52c41a',
-              color: 'white',
-              border: 'none',
-              borderRadius: '4px',
-              cursor: 'pointer'
-            }}
-          >
-            打印详细报告
-          </button>
+      {/* 用户信息卡片 */}
+      <Card title="当前用户信息" style={{ marginBottom: '24px' }}>
+        <Row gutter={16}>
+          <Col span={8}>
+            <Statistic 
+              title="用户名" 
+              value={userInfo?.username || '未登录'} 
+              prefix={<UserOutlined />}
+            />
+          </Col>
+          <Col span={8}>
+            <Statistic 
+              title="用户角色" 
+              value={userInfo?.role || '未知'} 
+              prefix={<TeamOutlined />}
+            />
+          </Col>
+          <Col span={8}>
+            <Statistic 
+              title="登录状态" 
+              value={isLoggedIn ? '已登录' : '未登录'} 
+              prefix={isLoggedIn ? <CheckCircleOutlined /> : <ClockCircleOutlined />}
+              valueStyle={{ color: isLoggedIn ? '#3f8600' : '#cf1322' }}
+            />
+          </Col>
+        </Row>
+        
+        <div style={{ marginTop: '16px' }}>
+          <Text strong>权限列表：</Text>
+          <Space style={{ marginLeft: '8px' }}>
+            {userInfo?.permissions?.map((permission, index) => (
+              <Tag key={index} color="blue">{permission}</Tag>
+            )) || <Text type="secondary">无权限信息</Text>}
+          </Space>
         </div>
-      </div>
-      
-      {/* 用户信息展示 */}
-      <div style={{ marginTop: '20px', padding: '15px', backgroundColor: '#f0f8ff', borderRadius: '8px' }}>
-        <h3>当前用户信息</h3>
-        <p><strong>用户名:</strong> {userInfo?.username || '未知'}</p>
-        <p><strong>角色:</strong> {userInfo?.role || '未知'}</p>
-        <p><strong>权限:</strong> {permissions?.length || 0} 项</p>
-      </div>
-      
-      {/* 路由信息展示 */}
-      <div style={{ marginTop: '20px', padding: '15px', backgroundColor: '#f5f5f5', borderRadius: '8px' }}>
-        <h3>路由信息</h3>
-        <p><strong>当前路径:</strong> {location?.pathname}</p>
-        <p><strong>路由参数:</strong> {JSON.stringify(params)}</p>
-      </div>
-      
-      {/* 调试信息 */}
-      {process.env.NODE_ENV === 'development' && (
-        <div style={{ marginTop: '20px', padding: '10px', backgroundColor: '#fff3cd', borderRadius: '8px' }}>
-          <h3>调试信息：</h3>
-          <p><strong>Props:</strong> {JSON.stringify({ title, description, loading, error })}</p>
-          <p><strong>用户信息:</strong> {JSON.stringify(userInfo)}</p>
-          <p><strong>权限:</strong> {JSON.stringify(permissions)}</p>
-        </div>
-      )}
+        
+        {token && (
+          <div style={{ marginTop: '8px' }}>
+            <Text type="secondary">Token: {token.substring(0, 20)}...</Text>
+          </div>
+        )}
+      </Card>
+
+      {/* 统计数据 */}
+      <Row gutter={16}>
+        <Col span={6}>
+          <Card>
+            <Statistic
+              title="总用户数"
+              value={1128}
+              prefix={<UserOutlined />}
+              valueStyle={{ color: '#3f8600' }}
+            />
+          </Card>
+        </Col>
+        <Col span={6}>
+          <Card>
+            <Statistic
+              title="总文件数"
+              value={93}
+              prefix={<FileOutlined />}
+              valueStyle={{ color: '#1890ff' }}
+            />
+          </Card>
+        </Col>
+        <Col span={6}>
+          <Card>
+            <Statistic
+              title="在线用户"
+              value={12}
+              prefix={<TeamOutlined />}
+              valueStyle={{ color: '#722ed1' }}
+            />
+          </Card>
+        </Col>
+        <Col span={6}>
+          <Card>
+            <Statistic
+              title="系统负载"
+              value={68}
+              suffix="%"
+              prefix={<BarChartOutlined />}
+              valueStyle={{ color: '#faad14' }}
+            />
+          </Card>
+        </Col>
+      </Row>
+
+      {/* 快速操作 */}
+      <Card title="快速操作" style={{ marginTop: '24px' }}>
+        <Row gutter={16}>
+          <Col span={8}>
+            <Card size="small" hoverable>
+              <div style={{ textAlign: 'center' }}>
+                <UserOutlined style={{ fontSize: '24px', color: '#1890ff' }} />
+                <div style={{ marginTop: '8px' }}>用户管理</div>
+              </div>
+            </Card>
+          </Col>
+          <Col span={8}>
+            <Card size="small" hoverable>
+              <div style={{ textAlign: 'center' }}>
+                <FileOutlined style={{ fontSize: '24px', color: '#52c41a' }} />
+                <div style={{ marginTop: '8px' }}>内容管理</div>
+              </div>
+            </Card>
+          </Col>
+          <Col span={8}>
+            <Card size="small" hoverable>
+              <div style={{ textAlign: 'center' }}>
+                <BarChartOutlined style={{ fontSize: '24px', color: '#722ed1' }} />
+                <div style={{ marginTop: '8px' }}>系统监控</div>
+              </div>
+            </Card>
+          </Col>
+        </Row>
+      </Card>
     </div>
   )
 }

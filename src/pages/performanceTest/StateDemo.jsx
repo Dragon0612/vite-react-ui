@@ -3,37 +3,25 @@ import { Card, Button, Space, Typography, Switch, InputNumber, Select, message, 
 import { 
   useUser, 
   useSettings, 
-  useAppDispatch,
   useSidebarCollapsed,
   useTheme,
   useLanguage
 } from '@/store/hooks'
-import { 
-  login, 
-  logout, 
-  updateUser, 
-  toggleTheme, 
-  setLanguage 
-} from '@/store/slices/userSlice'
-import { 
-  toggleSidebar, 
-  setPageSize, 
-  toggleAutoSave, 
-  updateNotifications,
-  resetSettings 
-} from '@/store/slices/settingsSlice'
-import { stateUtils, stateValidation } from '@/store/utils'
+import { useUserStore, useSettingsStore } from '@/store/zustand'
 
 const { Title, Text, Paragraph } = Typography
 const { Option } = Select
 
 const StateDemo = () => {
-  const dispatch = useAppDispatch()
   const user = useUser()
   const settings = useSettings()
   const sidebarCollapsed = useSidebarCollapsed()
   const theme = useTheme()
   const language = useLanguage()
+  
+  // Zustand store actions
+  const { login, logout, updateUser, toggleTheme, setLanguage } = useUserStore()
+  const { toggleSidebar, updateUISettings, updateSystemSettings, resetSettings } = useSettingsStore()
   
   const [importFile, setImportFile] = useState(null)
   const [stats, setStats] = useState(null)
@@ -50,13 +38,13 @@ const StateDemo = () => {
       token: 'mock-token-' + Date.now()
     }
     
-    dispatch(login(mockUser))
+    login(mockUser)
     message.success('登录成功！')
   }
 
   // 登出
   const handleLogout = () => {
-    dispatch(logout())
+    logout()
     message.info('已登出')
   }
 
@@ -66,54 +54,69 @@ const StateDemo = () => {
       username: 'updatedUser',
       email: 'updated@example.com'
     }
-    dispatch(updateUser(updates))
+    updateUser(updates)
     message.success('用户信息已更新')
   }
 
   // 切换主题
   const handleToggleTheme = () => {
-    dispatch(toggleTheme())
+    toggleTheme()
     message.info(`主题已切换到: ${theme === 'light' ? '深色' : '浅色'}`)
   }
 
   // 设置语言
   const handleLanguageChange = (value) => {
-    dispatch(setLanguage(value))
+    setLanguage(value)
     message.success(`语言已设置为: ${value}`)
   }
 
   // 切换侧边栏
   const handleToggleSidebar = () => {
-    dispatch(toggleSidebar())
+    toggleSidebar()
   }
 
   // 设置页面大小
   const handlePageSizeChange = (value) => {
-    dispatch(setPageSize(value))
+    updateUISettings({ pageSize: value })
     message.success(`页面大小已设置为: ${value}`)
   }
 
   // 切换自动保存
   const handleToggleAutoSave = () => {
-    dispatch(toggleAutoSave())
-    message.info(`自动保存已${settings.autoSave ? '关闭' : '开启'}`)
+    updateSystemSettings({ autoSave: !settings.system.autoSave })
+    message.info(`自动保存已${settings.system.autoSave ? '关闭' : '开启'}`)
   }
 
   // 更新通知设置
   const handleNotificationChange = (key, value) => {
-    dispatch(updateNotifications({ [key]: value }))
+    updateSystemSettings({ [key]: value })
   }
 
   // 重置设置
   const handleResetSettings = () => {
-    dispatch(resetSettings())
+    resetSettings()
     message.success('设置已重置为默认值')
   }
 
   // 导出状态
   const handleExportState = () => {
     try {
-      stateUtils.exportState()
+      const userState = useUserStore.getState()
+      const settingsState = useSettingsStore.getState()
+      const exportData = {
+        user: userState,
+        settings: settingsState,
+        timestamp: Date.now()
+      }
+      
+      const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: 'application/json' })
+      const url = URL.createObjectURL(blob)
+      const a = document.createElement('a')
+      a.href = url
+      a.download = `state-export-${Date.now()}.json`
+      a.click()
+      URL.revokeObjectURL(url)
+      
       message.success('状态已导出')
     } catch (error) {
       message.error('导出失败: ' + error.message)
@@ -128,7 +131,16 @@ const StateDemo = () => {
     }
 
     try {
-      await stateUtils.importState(importFile)
+      const text = await importFile.text()
+      const importData = JSON.parse(text)
+      
+      if (importData.user) {
+        useUserStore.setState(importData.user)
+      }
+      if (importData.settings) {
+        useSettingsStore.setState(importData.settings)
+      }
+      
       message.success('状态导入成功，请刷新页面')
       setImportFile(null)
     } catch (error) {
@@ -138,26 +150,36 @@ const StateDemo = () => {
 
   // 获取状态统计
   const handleGetStats = () => {
-    const statsData = stateUtils.getStateStats()
-    setStats(statsData)
+    const userState = useUserStore.getState()
+    const settingsState = useSettingsStore.getState()
+    
+    const allData = { ...userState, ...settingsState }
+    const totalKeys = Object.keys(allData).length
+    const totalSize = new Blob([JSON.stringify(allData)]).size
+    
+    setStats({
+      totalKeys,
+      totalSize,
+      lastModified: Date.now()
+    })
   }
 
   // 清除所有状态
   const handleClearAllState = () => {
-    stateUtils.clearAllPersistedState()
+    localStorage.clear()
     message.success('所有状态已清除，请刷新页面')
   }
 
   return (
     <div style={{ padding: '20px' }}>
-      <Title level={2}>状态持久化演示</Title>
+      <Title level={2}>状态持久化演示 (Zustand)</Title>
       
       {/* 用户状态 */}
       <Card title="用户状态" style={{ marginBottom: '20px' }}>
         <Row gutter={16}>
           <Col span={12}>
             <Statistic title="登录状态" value={user.isLoggedIn ? '已登录' : '未登录'} />
-            <Statistic title="用户名" value={user.user?.username || '未设置'} />
+            <Statistic title="用户名" value={user.userInfo?.username || '未设置'} />
             <Statistic title="主题" value={theme} />
             <Statistic title="语言" value={language} />
           </Col>
@@ -206,22 +228,22 @@ const StateDemo = () => {
                 <InputNumber
                   min={5}
                   max={100}
-                  value={settings.pageSize}
+                  value={settings.ui.pageSize || 10}
                   onChange={handlePageSizeChange}
                 />
               </div>
               <div>
                 <Text>自动保存: </Text>
                 <Switch 
-                  checked={settings.autoSave} 
+                  checked={settings.system.autoSave} 
                   onChange={handleToggleAutoSave} 
                 />
               </div>
               <div>
                 <Text>通知声音: </Text>
                 <Switch 
-                  checked={settings.notifications.sound} 
-                  onChange={(checked) => handleNotificationChange('sound', checked)} 
+                  checked={settings.system.soundEnabled} 
+                  onChange={(checked) => handleNotificationChange('soundEnabled', checked)} 
                 />
               </div>
             </Space>
@@ -298,19 +320,19 @@ const StateDemo = () => {
           <div>
             <Text>用户状态验证: </Text>
             <Text code>
-              {stateValidation.validateUserState(user) ? '✅ 通过' : '❌ 失败'}
+              {user.userInfo && user.userInfo.username ? '✅ 通过' : '❌ 失败'}
             </Text>
           </div>
           <div>
             <Text>设置状态验证: </Text>
             <Text code>
-              {stateValidation.validateSettingsState(settings) ? '✅ 通过' : '❌ 失败'}
+              {settings.layout && settings.system ? '✅ 通过' : '❌ 失败'}
             </Text>
           </div>
           <div>
             <Text>完整状态验证: </Text>
             <Text code>
-              {Object.values(stateValidation.validateAllState({ user, settings })).every(Boolean) ? '✅ 通过' : '❌ 失败'}
+              {(user.userInfo && user.userInfo.username && settings.layout && settings.system) ? '✅ 通过' : '❌ 失败'}
             </Text>
           </div>
         </Space>
