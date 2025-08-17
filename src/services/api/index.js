@@ -19,24 +19,16 @@ export {
   StatusCode
 } from './types'
 
-// 配置
+// 配置 - 使用简化的配置
 export {
-  DEFAULT_CONFIG,
-  getEnvConfig,
   API_ENDPOINTS,
-  DEFAULT_HEADERS,
   RESPONSE_CODES,
   ERROR_MESSAGES,
-  CACHE_CONFIG,
-  RETRY_CONFIG,
-  PERFORMANCE_THRESHOLDS,
-  validateConfig,
-  isDevelopment,
-  isTest,
-  isStaging,
-  isProduction,
-  mergeConfig
+  apiService
 } from './config'
+
+// 默认API实例
+export { default as api } from './config'
 
 // 中间件
 export {
@@ -49,9 +41,12 @@ export {
   cancelRequestMiddleware
 } from './middleware'
 
+// 业务服务
+export { UserService, userService } from './services/UserService'
+export { AuthService, authService } from './services/AuthService'
+
 // 创建并配置HTTP客户端
 import { httpClient } from './HttpClient'
-import { getEnvConfig } from './config'
 import {
   loggingMiddleware,
   cacheMiddleware,
@@ -62,77 +57,31 @@ import {
   cancelRequestMiddleware
 } from './middleware'
 
-// 业务服务 - 在配置完成后导入
-import { UserService, userService } from './services/UserService'
-import { AuthService, authService } from './services/AuthService'
-
-// 获取环境配置
-const envConfig = getEnvConfig()
-
-// 配置HTTP客户端
+// 配置HTTP客户端 - 使用简化的配置
 httpClient.setConfig({
-  baseURL: envConfig.baseURL,
-  timeout: envConfig.timeout,
-  retryTimes: envConfig.retryTimes,
-  retryDelay: envConfig.retryDelay
+  baseURL: '/api',  // 使用统一的代理前缀
+  timeout: import.meta.env.DEV ? 10000 : 5000,
+  retryTimes: 3,
+  retryDelay: 1000
 })
 
-// 根据配置添加中间件
-if (envConfig.enableLogging) {
+// 添加中间件 - 根据环境配置
+if (import.meta.env.DEV) {
+  // 开发环境启用所有中间件
   httpClient.addMiddleware(loggingMiddleware)
-}
-
-if (envConfig.enableCache) {
   httpClient.addMiddleware(cacheMiddleware)
-}
-
-if (envConfig.enableRetry) {
   httpClient.addMiddleware(retryMiddleware)
-}
-
-if (envConfig.enablePerformance) {
   httpClient.addMiddleware(performanceMiddleware)
-}
-
-if (envConfig.enableAuth) {
   httpClient.addMiddleware(authMiddleware)
-}
-
-if (envConfig.enableErrorHandling) {
   httpClient.addMiddleware(errorHandlingMiddleware)
-}
-
-if (envConfig.enableCancelRequest) {
   httpClient.addMiddleware(cancelRequestMiddleware)
+} else {
+  // 生产环境只启用必要的中间件
+  httpClient.addMiddleware(cacheMiddleware)
+  httpClient.addMiddleware(retryMiddleware)
+  httpClient.addMiddleware(authMiddleware)
+  httpClient.addMiddleware(errorHandlingMiddleware)
 }
 
 // 导出配置好的HTTP客户端
 export { httpClient as configuredHttpClient }
-
-// 创建常用服务实例
-export const createUserService = (baseURL = null, options = {}) => {
-  return httpClient.createService('user', baseURL, options)
-}
-
-export const createAuthService = (baseURL = null, options = {}) => {
-  return httpClient.createService('auth', baseURL, options)
-}
-
-// 导出服务工厂函数
-export const serviceFactory = {
-  createUserService,
-  createAuthService
-}
-
-// 导出业务服务
-export { UserService, userService }
-export { AuthService, authService }
-
-// 默认导出
-export default {
-  httpClient: httpClient,
-  userService,
-  authService,
-  serviceFactory,
-  config: envConfig
-}

@@ -4,9 +4,8 @@ import {
   userService, 
   authService, 
   httpClient,
-  createUserService,
-  isDevelopment,
-  getEnvConfig 
+  API_ENDPOINTS,
+  RESPONSE_CODES
 } from '../../services/api'
 
 const { Option } = Select
@@ -31,7 +30,11 @@ const ApiDemo = () => {
 
   useEffect(() => {
     // 获取配置信息
-    setConfig(getEnvConfig())
+    setConfig({
+      baseURL: '/api',
+      timeout: import.meta.env.DEV ? 10000 : 5000,
+      environment: import.meta.env.MODE
+    })
     
     // 获取用户列表
     fetchUsers()
@@ -158,7 +161,7 @@ const ApiDemo = () => {
   // 测试自定义服务
   const testCustomService = async () => {
     try {
-      const customUserService = createUserService('https://jsonplaceholder.typicode.com')
+      const customUserService = httpClient.createService('https://jsonplaceholder.typicode.com')
       const response = await customUserService.get('/users/1')
       message.success('自定义服务测试成功')
       console.log('自定义服务响应:', response)
@@ -273,7 +276,7 @@ const ApiDemo = () => {
       <Card title="环境配置" style={{ marginBottom: '24px' }}>
         <Row gutter={16}>
           <Col span={6}>
-            <Statistic title="当前环境" value={isDevelopment() ? '开发环境' : '生产环境'} />
+            <Statistic title="当前环境" value={config.environment} />
           </Col>
           <Col span={6}>
             <Statistic title="API地址" value={config.baseURL} />

@@ -4,15 +4,24 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --mode development",
+    "dev:test": "vite --mode test",
+    "dev:prod": "vite --mode production",
     "build": "vite build --mode production",
-    "build:analyze": "node scripts/analyze.js",
+    "build:test": "vite build --mode test",
+    "build:dev": "vite build --mode development",
+    "build:analyze": "vite build --mode production && node scripts/analyze.js",
     "preview": "vite preview",
+    "preview:test": "vite preview --port 4174",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "type-check": "tsc --noEmit",
     "performance": "node scripts/performance.js",
-    "build:full": "npm run build && npm run performance"
+    "performance:test": "node scripts/simple-performance-test.js",
+    "build:full": "npm run build && npm run performance",
+    "start": "npm run dev",
+    "test": "npm run dev:test",
+    "prod": "npm run dev:prod"
   },
   "dependencies": {
     "antd": "^5.26.7",

@@ -1,80 +1,87 @@
-/**
- * API配置文件
- * 管理不同环境的配置参数
- */
+import axios from 'axios'
 
-// 环境配置
-const ENV_CONFIG = {
-  development: {
-    baseURL: 'http://localhost:3000/api',
-    timeout: 10000,
-    retryTimes: 3,
-    retryDelay: 1000,
-    enableMock: true,
-    enableCache: true,
-    enableLogging: true,
-    enablePerformance: true,
-    enableRetry: true,
-    enableAuth: true,
-    enableErrorHandling: true,
-    enableCancelRequest: true
+// 创建统一的 API 实例
+const api = axios.create({
+  baseURL: '/api',  // 使用统一的代理前缀
+  timeout: import.meta.env.DEV ? 10000 : 5000,
+  headers: {
+    'Content-Type': 'application/json'
+  }
+})
+
+// 请求拦截器
+api.interceptors.request.use(
+  (config) => {
+    // 开发环境添加调试日志
+    if (import.meta.env.DEV) {
+      console.log('🚀 API 请求:', config.method?.toUpperCase(), config.url)
+    }
+    
+    // 添加认证头（如果有token）
+    const token = localStorage.getItem('token')
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`
+    }
+    
+    return config
   },
-  test: {
-    baseURL: 'http://test-api.example.com/api',
-    timeout: 15000,
-    retryTimes: 2,
-    retryDelay: 2000,
-    enableMock: false,
-    enableCache: true,
-    enableLogging: true,
-    enablePerformance: true,
-    enableRetry: true,
-    enableAuth: true,
-    enableErrorHandling: true,
-    enableCancelRequest: true
+  (error) => {
+    return Promise.reject(error)
+  }
+)
+
+// 响应拦截器
+api.interceptors.response.use(
+  (response) => {
+    // 开发环境添加调试日志
+    if (import.meta.env.DEV) {
+      console.log('✅ API 响应:', response.status, response.config.url)
+    }
+    return response
   },
-  staging: {
-    baseURL: 'http://staging-api.example.com/api',
-    timeout: 20000,
-    retryTimes: 3,
-    retryDelay: 1000,
-    enableMock: false,
-    enableCache: true,
-    enableLogging: false,
-    enablePerformance: true,
-    enableRetry: true,
-    enableAuth: true,
-    enableErrorHandling: true,
-    enableCancelRequest: true
-  },
-  production: {
-    baseURL: import.meta.env.VITE_API_URL || 'https://api.example.com/api',
-    timeout: 30000,
-    retryTimes: 2,
-    retryDelay: 2000,
-    enableMock: false,
-    enableCache: true,
-    enableLogging: false,
-    enablePerformance: true,
-    enableRetry: true,
-    enableAuth: true,
-    enableErrorHandling: true,
-    enableCancelRequest: true
+  (error) => {
+    // 开发环境添加错误日志
+    if (import.meta.env.DEV) {
+      console.error('❌ API 错误:', error.response?.status, error.config?.url, error.message)
+    }
+    
+    // 统一错误处理
+    if (error.response?.status === 401) {
+      // 未授权，跳转到登录页
+      localStorage.removeItem('token')
+      window.location.href = '/login'
+    }
+    
+    return Promise.reject(error)
+  }
+)
+
+// API 方法封装
+export const apiService = {
+  // GET 请求
+  get: (url, config = {}) => api.get(url, config),
+  
+  // POST 请求
+  post: (url, data = {}, config = {}) => api.post(url, data, config),
+  
+  // PUT 请求
+  put: (url, data = {}, config = {}) => api.put(url, data, config),
+  
+  // DELETE 请求
+  delete: (url, config = {}) => api.delete(url, config),
+  
+  // 文件上传
+  upload: (url, formData, config = {}) => {
+    return api.post(url, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      },
+      ...config
+    })
   }
 }
 
-// 获取当前环境
-const getCurrentEnv = () => {
-  return import.meta.env.MODE || 'development'
-}
-
-// 获取环境配置
-export const getEnvConfig = () => {
-  const env = getCurrentEnv()
-  return ENV_CONFIG[env] || ENV_CONFIG.development
-}
-
-// API端点配置
+// API端点配置 - 保持向后兼容性
 export const API_ENDPOINTS = {
   // 认证相关
   AUTH: {
@@ -90,7 +97,7 @@ export const API_ENDPOINTS = {
   
   // 用户管理
   USER: {
-    PROFILE: '/users/profile',
+    PROFILE: '/user/profile',
     LIST: '/users',
     CREATE: '/users',
     UPDATE: (id) => `/users/${id}`,
@@ -150,13 +157,6 @@ export const API_ENDPOINTS = {
   }
 }
 
-// 请求头配置
-export const DEFAULT_HEADERS = {
-  'Content-Type': 'application/json',
-  'Accept': 'application/json',
-  'X-Requested-With': 'XMLHttpRequest'
-}
-
 // 响应状态码配置
 export const RESPONSE_CODES = {
   SUCCESS: 200,
@@ -185,80 +185,4 @@ export const ERROR_MESSAGES = {
   UNKNOWN_ERROR: '未知错误，请稍后重试'
 }
 
-// 缓存配置
-export const CACHE_CONFIG = {
-  DEFAULT_TTL: 5 * 60 * 1000, // 5分钟
-  USER_TTL: 10 * 60 * 1000,   // 10分钟
-  SYSTEM_TTL: 30 * 60 * 1000, // 30分钟
-  STATIC_TTL: 60 * 60 * 1000  // 1小时
-}
-
-// 重试配置
-export const RETRY_CONFIG = {
-  DEFAULT_RETRIES: 3,
-  DEFAULT_DELAY: 1000,
-  MAX_DELAY: 10000,
-  BACKOFF_MULTIPLIER: 2
-}
-
-// 性能阈值配置
-export const PERFORMANCE_THRESHOLDS = {
-  SLOW_REQUEST: 1000,    // 1秒
-  VERY_SLOW_REQUEST: 3000, // 3秒
-  TIMEOUT_WARNING: 5000   // 5秒
-}
-
-// 导出默认配置
-export const DEFAULT_CONFIG = {
-  ...getEnvConfig(),
-  headers: DEFAULT_HEADERS,
-  endpoints: API_ENDPOINTS,
-  responseCodes: RESPONSE_CODES,
-  errorMessages: ERROR_MESSAGES,
-  cache: CACHE_CONFIG,
-  retry: RETRY_CONFIG,
-  performance: PERFORMANCE_THRESHOLDS
-}
-
-// 配置验证函数
-export const validateConfig = (config) => {
-  const requiredFields = ['baseURL', 'timeout']
-  const errors = []
-  
-  requiredFields.forEach(field => {
-    if (!config[field]) {
-      errors.push(`缺少必需配置: ${field}`)
-    }
-  })
-  
-  if (config.timeout && (typeof config.timeout !== 'number' || config.timeout <= 0)) {
-    errors.push('timeout必须是大于0的数字')
-  }
-  
-  if (config.retryTimes && (typeof config.retryTimes !== 'number' || config.retryTimes < 0)) {
-    errors.push('retryTimes必须是非负数')
-  }
-  
-  return {
-    isValid: errors.length === 0,
-    errors
-  }
-}
-
-// 环境检测函数
-export const isDevelopment = () => getCurrentEnv() === 'development'
-export const isTest = () => getCurrentEnv() === 'test'
-export const isStaging = () => getCurrentEnv() === 'staging'
-export const isProduction = () => getCurrentEnv() === 'production'
-
-// 配置合并函数
-export const mergeConfig = (baseConfig, overrideConfig) => {
-  return {
-    ...baseConfig,
-    ...overrideConfig,
-    headers: {
-      ...baseConfig.headers,
-      ...overrideConfig.headers
-    }
-  }
-}
+export default api
