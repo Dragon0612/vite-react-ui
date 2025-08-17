@@ -2,6 +2,9 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import { fileURLToPath, URL } from 'node:url'
 import { resolve } from 'path'
+import viteCompression from 'vite-plugin-compression'
+import { createHtmlPlugin } from 'vite-plugin-html'
+import viteImagemin from 'vite-plugin-imagemin'
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -12,6 +15,62 @@ export default defineConfig({
   },
   plugins: [
     react(),
+    // 图片优化
+    viteImagemin({
+      gifsicle: { 
+        optimizationLevel: 7,
+        interlaced: false 
+      },
+      mozjpeg: { 
+        quality: 80,
+        progressive: true 
+      },
+      pngquant: { 
+        quality: [0.65, 0.8],
+        speed: 4 
+      },
+      webp: { 
+        quality: 75,
+        method: 6 
+      },
+      svgo: {
+        plugins: [
+          {
+            name: 'removeViewBox',
+            active: false
+          },
+          {
+            name: 'removeEmptyAttrs',
+            active: false
+          }
+        ]
+      }
+    }),
+    // 资源压缩
+    viteCompression({
+      algorithm: 'gzip',
+      ext: '.gz',
+      threshold: 10240,
+      deleteOriginFile: false
+    }),
+    // HTML优化
+    createHtmlPlugin({
+      minify: {
+        collapseWhitespace: true,
+        removeComments: true,
+        removeRedundantAttributes: true,
+        removeScriptTypeAttributes: true,
+        removeStyleLinkTypeAttributes: true,
+        useShortDoctype: true,
+        minifyCSS: true,
+        minifyJS: true
+      },
+      inject: {
+        data: {
+          title: 'Vite React UI - 管理系统'
+        }
+      }
+    })
   ],
   build: {
     // 构建优化配置
@@ -24,6 +83,7 @@ export default defineConfig({
       compress: {
         drop_console: true, // 移除console.log
         drop_debugger: true, // 移除debugger
+        pure_funcs: ['console.log', 'console.info', 'console.debug', 'console.warn']
       },
     },
     rollupOptions: {
@@ -37,7 +97,7 @@ export default defineConfig({
           // 将路由相关打包到router
           router: ['react-router-dom'],
           // 将状态管理相关打包到store
-                         store: ['zustand'],
+          store: ['zustand'],
           // 将HTTP客户端打包到http
           http: ['axios'],
         },
@@ -65,8 +125,6 @@ export default defineConfig({
       'react-dom',
       'antd',
       'react-router-dom',
-               // '@reduxjs/toolkit', // 已移除Redux
-               // 'react-redux', // 已移除Redux
       'zustand',
       'axios',
     ],

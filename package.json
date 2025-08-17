@@ -39,6 +39,11 @@
     "postcss": "^8.5.6",
     "tailwindcss": "^4.1.11",
     "terser": "^5.43.1",
-    "vite": "^7.0.4"
+    "vite": "^7.0.4",
+    "vite-plugin-chunk-split": "^0.5.0",
+    "vite-plugin-compression": "^0.5.1",
+    "vite-plugin-html": "^3.2.2",
+    "vite-plugin-imagemin": "0.6.1",
+    "vite-plugin-purgecss": "^0.2.13"
   }
 }
