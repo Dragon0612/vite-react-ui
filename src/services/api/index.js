@@ -45,6 +45,21 @@ export {
 export { UserService, userService } from './services/UserService'
 export { AuthService, authService } from './services/AuthService'
 
+// Apifox 增强服务
+export { ApifoxUserService, apifoxUserService, testApifoxIntegration } from './services/ApifoxUserService'
+export { ApifoxAuthService, apifoxAuthService, loginToApifox, testApifoxLogin } from './services/ApifoxAuthService'
+
+// Apifox 配置和工具
+export { 
+  APIFOX_CONFIG, 
+  APIFOX_PROJECT_INFO,
+  createSmartApiCall,
+  createApifoxApi,
+  isApifoxEnabled,
+  getApifoxProjectUrl,
+  getApifoxMockUrl 
+} from './apifox.config'
+
 // 创建并配置HTTP客户端
 import { httpClient } from './HttpClient'
 import {
