@@ -10,8 +10,7 @@ const ProduceInfo = lazy(() => import('@/pages/produceInfo'))
 const LogManagement = lazy(() => import('@/pages/LogManagement'))
 const PerformanceDemo = lazy(() => import('@/pages/performanceTest/PerformanceDemo'))
 const ApiDemo = lazy(() => import('@/pages/performanceTest/ApiDemo'))
-const ApifoxDemo = lazy(() => import('@/pages/performanceTest/ApifoxDemo'))
-const ApifoxLoginDemo = lazy(() => import('@/pages/performanceTest/ApifoxLoginDemo'))
+
 const About = lazy(() => import('@/pages/About'))
 const Help = lazy(() => import('@/pages/Help'))
 const Contact = lazy(() => import('@/pages/Contact'))
@@ -320,36 +319,7 @@ export const routes = [
               cacheKey: 'keep-alive-test'
             }
           },
-          {
-            path: 'apifox-demo', // 相对于父路径的路径
-            name: 'Apifox集成演示',
-            component: ApifoxDemo,
-            meta: {
-              title: 'Apifox集成演示',
-              description: 'Apifox Mock服务集成演示页面',
-              icon: 'api',
-              showInMenu: true,
-              // 演示页面需要基本参数
-              injectParams: true,
-              injectUserInfo: false,
-              injectCallbacks: false
-            }
-          },
-          {
-            path: 'apifox-login-demo', // 相对于父路径的路径
-            name: 'Apifox登录演示',
-            component: ApifoxLoginDemo,
-            meta: {
-              title: 'Apifox登录演示',
-              description: 'Apifox登录接口演示页面',
-              icon: 'login',
-              showInMenu: true,
-              // 演示页面需要基本参数
-              injectParams: true,
-              injectUserInfo: false,
-              injectCallbacks: false
-            }
-          },
+
 
         ]
       },

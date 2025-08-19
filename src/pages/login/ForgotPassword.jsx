@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { Form, Input, Button, message, Modal, Typography } from 'antd'
 import { MailOutlined } from '@ant-design/icons'
+import { forgotPassword } from '@/api/login'
 
 const { Text } = Typography
 
@@ -17,12 +18,22 @@ const ForgotPassword = ({ visible, onCancel }) => {
     setIsLoading(true)
     try {
       console.log('忘记密码信息:', values)
-      // 模拟发送重置密码邮件
-      await new Promise(resolve => setTimeout(resolve, 1000))
+      
+      // 使用纯API调用
+      const response = await forgotPassword(values.email)
+      
       message.success('重置密码邮件已发送，请检查您的邮箱')
       handleCancel()
     } catch (error) {
-      message.error('发送失败，请稍后重试')
+      console.error('忘记密码异常:', error)
+      
+      if (error.response?.status === 404) {
+        message.error('邮箱地址不存在')
+      } else if (error.response?.data?.message) {
+        message.error(error.response.data.message)
+      } else {
+        message.error('发送失败，请稍后重试')
+      }
     } finally {
       setIsLoading(false)
     }

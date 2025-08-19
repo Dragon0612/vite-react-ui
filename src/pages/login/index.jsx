@@ -3,6 +3,7 @@ import { Card, Form, Input, Button, Checkbox, message, Typography } from 'antd'
 import { UserOutlined, LockOutlined } from '@ant-design/icons'
 import { useNavigate } from 'react-router-dom'
 import { useUserStore } from '@/store/zustand'
+import { loginToApifox } from '@/services/api/services/ApifoxAuthService'
 import ForgotPassword from './ForgotPassword'
 
 const { Link } = Typography
@@ -21,27 +22,33 @@ const Login = () => {
     setLoading(true)
     
     try {
-      // 模拟登录API调用
-      await new Promise(resolve => setTimeout(resolve, 1000))
+      // 使用Apifox登录接口
+      const result = await loginToApifox({
+        username: values.username,
+        password: values.password,
+        rememberMe: values.remember || false
+      })
       
-      // 模拟登录成功数据
-      const mockUserData = {
-        user: {
-          id: 1,
-          username: values.username,
-          email: `${values.username}@example.com`,
-          role: 'admin',
-          permissions: ['read', 'write', 'admin']
-        },
-        token: 'mock-token-' + Date.now()
+      // 处理登录成功
+      if (result.success && result.data) {
+        // 保存token到本地存储
+        if (result.data.token) {
+          localStorage.setItem('token', result.data.token)
+        }
+        if (result.data.user) {
+          localStorage.setItem('user', JSON.stringify(result.data.user))
+        }
+        
+        // 使用Zustand登录状态管理
+        login(result.data)
+        
+        message.success('登录成功')
+        navigate('/')
+      } else {
+        message.error('登录失败，请重试')
       }
-      
-      // 使用Zustand登录
-      login(mockUserData)
-      
-      message.success('登录成功')
-      navigate('/')
     } catch (error) {
+      console.error('登录异常:', error)
       message.error('登录失败，请重试')
     } finally {
       setLoading(false)
