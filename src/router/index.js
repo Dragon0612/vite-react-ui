@@ -16,6 +16,7 @@ const Help = lazy(() => import('@/pages/Help'))
 const Contact = lazy(() => import('@/pages/Contact'))
 const StateDemo = lazy(() => import('@/pages/performanceTest/StateDemo'))
 const KeepAliveTest = lazy(() => import('@/pages/performanceTest/KeepAliveTest'))
+const PerformanceTest = lazy(() => import('@/pages/performanceTest/PerformanceTest'))
 const PermissionManagement = lazy(() => import('@/pages/permissionManagerment'))
 
 // 路由配置
@@ -255,6 +256,24 @@ export const routes = [
           isGroup: true, // 标记为菜单组
         },
         children: [
+          {
+            path: 'performance-test', // 相对于父路径的路径
+            name: '性能测试监控',
+            component: PerformanceTest,
+            meta: {
+              title: '性能测试监控',
+              description: '实时监控首屏加载性能和用户体验指标',
+              icon: 'dashboard',
+              showInMenu: true,
+              // 性能测试页面需要基本参数
+              injectParams: true,
+              injectUserInfo: false,
+              injectCallbacks: false,
+              // KeepAlive 配置
+              keepAlive: true,
+              cacheKey: 'performance-test'
+            }
+          },
           {
             path: 'performance-demo', // 相对于父路径的路径
             name: '性能监控演示',

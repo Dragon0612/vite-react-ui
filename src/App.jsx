@@ -1,8 +1,10 @@
 import AppProvider from '@/providers/AppProvider'
 import RouterConfig from '@/router/RouterConfig'
 import ResourcePreloader from '@/components/ResourcePreloader'
-import PerformanceMonitor from '@/components/PerformanceMonitor'
 import '@/App.css'
+
+// 初始化全局性能监控
+import '@/services/performanceMonitor'
 
 function App() {
   return (
@@ -10,7 +12,6 @@ function App() {
       <div className="App">
         <ResourcePreloader />
         <RouterConfig />
-        <PerformanceMonitor />
       </div>
     </AppProvider>
   )

@@ -1,3 +1,2 @@
-// 导出所有服务
-export { userService } from './userService'
-export { productService } from './productService' 
+// 导出所有API服务
+export * from './api' 

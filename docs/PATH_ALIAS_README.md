@@ -67,7 +67,7 @@ import { useRequest } from '@/hooks/useRequest'
 ### 导入服务层
 ```javascript
 // 之前
-import { userService } from '../services/userService'
+import { userService } from '../services/api/services/UserService'
 
 // 现在
 import { userService } from '@/services'
@@ -114,8 +114,8 @@ import '@/styles/global.less'
 - `src/pages/Home.jsx`
 - `src/components/RequestDemo.jsx`
 - `src/components/UserList.jsx`
-- `src/services/userService.js`
-- `src/services/productService.js`
+- `src/services/api/services/UserService.js`
+- `src/services/api/services/AuthService.js`
 
 ## 🎯 演示页面
 

@@ -34,7 +34,11 @@ const iconMap = {
   'monitor': <MonitorOutlined />,
   'info-circle': <InfoCircleOutlined />,
   'question-circle': <QuestionCircleOutlined />,
-  'phone': <PhoneOutlined />
+  'phone': <PhoneOutlined />,
+  'api': <BarChartOutlined />,
+  'database': <FileOutlined />,
+  'experiment': <MonitorOutlined />,
+  'safety': <SettingOutlined />
 }
 
 // 从路由配置生成菜单项
