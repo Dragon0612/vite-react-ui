@@ -319,6 +319,23 @@ export const routes = [
               injectCallbacks: false
             }
           },
+          {
+            path: 'auto-keepalive-demo', // 自动状态持久化演示
+            name: '自动状态持久化',
+            component: lazy(() => import('@/pages/performanceTest/AutoKeepAliveDemo')),
+            meta: {
+              title: '自动状态持久化演示',
+              description: '只需keepAlive:true即可自动持久化所有状态',
+              icon: 'save',
+              showInMenu: true,
+              injectParams: true,
+              injectUserInfo: false,
+              injectCallbacks: false,
+              // ✨ 只需要这一行！自动状态持久化
+              keepAlive: true,
+              cacheKey: 'auto-keepalive-demo'
+            }
+          },
 
           {
             path: 'keep-alive-test', // 相对于父路径的路径

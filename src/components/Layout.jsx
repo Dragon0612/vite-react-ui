@@ -15,7 +15,8 @@ import {
   MonitorOutlined,
   InfoCircleOutlined,
   QuestionCircleOutlined,
-  PhoneOutlined
+  PhoneOutlined,
+  SaveOutlined
 } from '@ant-design/icons'
 import { useNavigate, useLocation, Outlet } from 'react-router-dom'
 import { useUserStore } from '@/store/zustand'
@@ -38,7 +39,8 @@ const iconMap = {
   'api': <BarChartOutlined />,
   'database': <FileOutlined />,
   'experiment': <MonitorOutlined />,
-  'safety': <SettingOutlined />
+  'safety': <SettingOutlined />,
+  'save': <SaveOutlined />
 }
 
 // 从路由配置生成菜单项
