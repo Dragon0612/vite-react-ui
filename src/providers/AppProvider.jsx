@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { BrowserRouter as Router } from 'react-router-dom'
 import { ConfigProvider } from 'antd'
 import zhCN from 'antd/locale/zh_CN'
-import { useKeepAliveTestStore, useUserStore, useSettingsStore } from '@/store/zustand'
+import { useUserStore, useSettingsStore } from '@/store/zustand'
 
 // Zustand初始化组件
 const ZustandInitializer = ({ children }) => {
@@ -12,21 +12,16 @@ const ZustandInitializer = ({ children }) => {
     // 初始化用户信息
     initializeUserInfo()
     
-    // 预加载 KeepAliveTest store
-    const keepAliveStore = useKeepAliveTestStore.getState()
-    
     console.log('🚀 Zustand 状态管理已初始化', {
       userStore: useUserStore.getState(),
-      settingsStore: useSettingsStore.getState(),
-      keepAliveStore: keepAliveStore
+      settingsStore: useSettingsStore.getState()
     })
     
     // 在开发环境下启用调试
     if (process.env.NODE_ENV === 'development') {
       window.__zustandStores = {
         user: useUserStore,
-        settings: useSettingsStore,
-        keepAliveTest: useKeepAliveTestStore
+        settings: useSettingsStore
       }
       console.log('🔧 Zustand 调试模式已启用，可通过 window.__zustandStores 访问')
     }

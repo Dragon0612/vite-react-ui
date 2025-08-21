@@ -14,8 +14,8 @@ const ApiDemo = lazy(() => import('@/pages/performanceTest/ApiDemo'))
 const About = lazy(() => import('@/pages/About'))
 const Help = lazy(() => import('@/pages/Help'))
 const Contact = lazy(() => import('@/pages/Contact'))
-const StateDemo = lazy(() => import('@/pages/performanceTest/StateDemo'))
-const KeepAliveTest = lazy(() => import('@/pages/performanceTest/KeepAliveTest'))
+
+
 const PerformanceTest = lazy(() => import('@/pages/performanceTest/PerformanceTest'))
 const PermissionManagement = lazy(() => import('@/pages/permissionManagerment'))
 
@@ -305,21 +305,6 @@ export const routes = [
             }
           },
           {
-            path: 'state-demo', // 相对于父路径的路径
-            name: '状态持久化演示',
-            component: StateDemo,
-            meta: {
-              title: '状态持久化演示',
-              description: 'Zustand状态持久化功能演示',
-              icon: 'database',
-              showInMenu: true,
-              // 演示页面需要基本参数
-              injectParams: true,
-              injectUserInfo: false,
-              injectCallbacks: false
-            }
-          },
-          {
             path: 'auto-keepalive-demo', // 自动状态持久化演示
             name: '自动状态持久化',
             component: lazy(() => import('@/pages/performanceTest/AutoKeepAliveDemo')),
@@ -334,25 +319,6 @@ export const routes = [
               // ✨ 只需要这一行！自动状态持久化
               keepAlive: true,
               cacheKey: 'auto-keepalive-demo'
-            }
-          },
-
-          {
-            path: 'keep-alive-test', // 相对于父路径的路径
-            name: 'KeepAlive测试',
-            component: KeepAliveTest,
-            meta: {
-              title: 'KeepAlive测试',
-              description: 'KeepAlive功能测试页面',
-              icon: 'experiment',
-              showInMenu: true,
-              // 演示页面需要基本参数
-              injectParams: true,
-              injectUserInfo: false,
-              injectCallbacks: false,
-              // KeepAlive 配置
-              keepAlive: true,
-              cacheKey: 'keep-alive-test'
             }
           },
 
