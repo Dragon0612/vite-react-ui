@@ -40,7 +40,7 @@ const Login = () => {
         }
         
         // 使用Zustand登录状态管理
-        login(result.data)
+        await login(result.data)
         
         message.success('登录成功')
         navigate('/')

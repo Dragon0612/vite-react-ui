@@ -1,8 +1,17 @@
 # API 接口文档
 
+纯API调用层，负责与后端接口通信，不处理业务逻辑。
+
+## 目录结构
+
+- [`login.js`](./login.js) - 登录认证相关API
+- [`userInfo.js`](./userInfo.js) - 用户信息相关API
+
+---
+
 ## 登录相关API (`src/api/login.js`)
 
-纯API调用层，负责与后端接口通信，不处理业务逻辑。
+基于标准RESTful API的登录认证接口。
 
 ### 基础用法
 
