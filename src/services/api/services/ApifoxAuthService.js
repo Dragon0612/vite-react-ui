@@ -30,6 +30,7 @@ export class ApifoxAuthService extends AuthService {
         headers: {
           'Authorization': 'Bearer shpT2Zh4YXB4oeDJ44Q47',
           'apifoxToken': 'shpT2Zh4YXB4oeDJ44Q47'
+          // 🎯 防缓存策略由拦截器自动处理
         }
       })
       
